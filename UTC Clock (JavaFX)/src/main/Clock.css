@@ -1,0 +1,19 @@
+.root {
+     -fx-background-image: url("../images/dunkel.png");
+}
+
+.label {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #FFFFFF;
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+}
+
+#welcome-text{
+	
+}
+
+.button .text{
+	-fx-text-fill: black;
+	-fx-font-weight: bold;
+}
