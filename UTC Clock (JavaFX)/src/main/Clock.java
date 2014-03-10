@@ -27,7 +27,7 @@ public class Clock extends javafx.application.Application implements IClock {
 		myTimer.start();
     	
 		try {
-			Parent root = FXMLLoader.load(getClass().getResource("fxml_example.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("../fxml/fxml_example.fxml"));
 		    
 	        Scene scene = new Scene(root, 614, 428);
 	        
