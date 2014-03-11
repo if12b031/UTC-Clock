@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?language javascript?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane alignment="CENTER" hgap="10.0" prefHeight="330.0" prefWidth="599.9999000000025" styleClass="root" vgap="50.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="279.0" minWidth="10.0" prefWidth="158.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="409.0" minWidth="10.0" prefWidth="396.0" />
+  </columnConstraints>
+  <padding>
+    <Insets bottom="10.0" left="25.0" right="25.0" top="25.0" />
+  </padding>
+  <rowConstraints>
+    <RowConstraints maxHeight="80.0" minHeight="10.0" prefHeight="80.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="43.0" minHeight="10.0" prefHeight="43.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="43.0" minHeight="10.0" prefHeight="43.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+  <stylesheets>
+    <URL value="@../css/digitalClock.css" />
+  </stylesheets>
+  <Text id="clockName" disable="false" fill="WHITE" focusTraversable="false" scaleX="1.2126349418505238" scaleY="1.0" smooth="true" strikethrough="false" text="digital-Clock" textAlignment="LEFT" underline="false" visible="true" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
+    <effect>
+      <Lighting>
+        <bumpInput>
+          <Shadow />
+        </bumpInput>
+        <light>
+          <javafx.scene.effect.Light.Distant />
+        </light>
+      </Lighting>
+    </effect>
+    <font>
+      <Font name="LilyUPC Bold" size="55.0" />
+    </font>
+  </Text>
+  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="1">
+    <children>
+      <Text fx:id="hoursOutput" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="00">
+        <font>
+          <Font name="System Bold" size="65.0" fx:id="x1" />
+        </font>
+      </Text>
+      <Text fill="WHITE" font="$x1" strokeType="OUTSIDE" strokeWidth="0.0" text=":" />
+      <Text fx:id="minutesOutput" fill="WHITE" font="$x1" strokeType="OUTSIDE" strokeWidth="0.0" text="00" />
+      <Text fill="WHITE" font="$x1" strokeType="OUTSIDE" strokeWidth="0.0" text=":" />
+      <Text fx:id="secondsOutput" fill="WHITE" font="$x1" strokeType="OUTSIDE" strokeWidth="0.0" text="00" />
+    </children>
+    <padding>
+      <Insets />
+    </padding>
+  </HBox>
+  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
+    <children>
+      <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Timezone :" textAlignment="LEFT">
+        <font>
+          <Font name="System Bold" size="18.0" fx:id="x2" />
+        </font>
+      </Text>
+    </children>
+  </HBox>
+  <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+    <children>
+      <Text fx:id="timezoneOutput" fill="WHITE" font="$x2" strokeType="OUTSIDE" strokeWidth="0.0" text="+1" textAlignment="LEFT" />
+    </children>
+    <GridPane.margin>
+      <Insets left="10.0" />
+    </GridPane.margin>
+  </HBox>
+</GridPane>

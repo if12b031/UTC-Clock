@@ -1,5 +1,13 @@
 package commands;
 
-public class ComInc {
+import interfaces.ICommand;
+
+public class ComInc implements ICommand {
+
+	@Override
+	public void execute() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

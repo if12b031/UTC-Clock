@@ -47,10 +47,10 @@
       <Font name="LilyUPC Bold" size="55.0" />
     </font>
   </Text>
-  <Button fx:id="setButton" mnemonicParsing="false" text="SET" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-  <Button fx:id="decButton" mnemonicParsing="false" text="DEC" textAlignment="CENTER" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-  <Button fx:id="incButton" mnemonicParsing="false" text="INC" textAlignment="CENTER" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-  <Button fx:id="helpButton" mnemonicParsing="false" text="?" textAlignment="CENTER" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="0">
+  <Button fx:id="setButton" mnemonicParsing="false" onAction="#changeTime" text="SET" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+  <Button fx:id="decButton" mnemonicParsing="false" onAction="#changeTime" text="DEC" textAlignment="CENTER" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+  <Button fx:id="incButton" mnemonicParsing="false" onAction="#changeTime" text="INC" textAlignment="CENTER" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+  <Button fx:id="helpButton" mnemonicParsing="false" onAction="#help" text="?" textAlignment="CENTER" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="0">
     <font>
       <Font name="System Bold" size="18.0" fx:id="x1" />
     </font>
@@ -84,23 +84,45 @@
       <Font name="System Bold" size="20.0" />
     </font>
   </Button>
-  <ChoiceBox fx:id="displayChoice" GridPane.columnIndex="0" GridPane.rowIndex="3">
+  <ComboBox fx:id="displayChoice" promptText="Display" GridPane.columnIndex="0" GridPane.rowIndex="3">
     <items>
       <FXCollections fx:factory="observableArrayList">
         <String fx:value="analog" />
         <String fx:value="digital" />
       </FXCollections>
     </items>
-  </ChoiceBox>
-  <ChoiceBox fx:id="timezoneChoice" GridPane.columnIndex="1" GridPane.rowIndex="3">
+  </ComboBox>
+  <ComboBox fx:id="timezoneChoice" prefHeight="21.0" prefWidth="77.888671875" promptText="Timezone" visibleRowCount="5" GridPane.columnIndex="1" GridPane.rowIndex="3">
     <items>
       <FXCollections fx:factory="observableArrayList">
-        <String fx:value="Item 1" />
-        <String fx:value="Item 2" />
-        <String fx:value="Item 3" />
+        <String fx:value="+12" />
+        <String fx:value="+11" />
+        <String fx:value="+10" />
+        <String fx:value="+9" />
+        <String fx:value="+8" />
+        <String fx:value="+7" />
+        <String fx:value="+6" />
+        <String fx:value="+5" />
+        <String fx:value="+4" />
+        <String fx:value="+3" />
+        <String fx:value="+2" />
+        <String fx:value="+1" />
+        <String fx:value="UTC" />
+        <String fx:value="-1" />
+        <String fx:value="-2" />
+        <String fx:value="-3" />
+        <String fx:value="-4" />
+        <String fx:value="-5" />
+        <String fx:value="-6" />
+        <String fx:value="-7" />
+        <String fx:value="-8" />
+        <String fx:value="-9" />
+        <String fx:value="-10" />
+        <String fx:value="-11" />
+        <String fx:value="-12" />
       </FXCollections>
     </items>
-  </ChoiceBox>
+  </ComboBox>
   <HBox alignment="CENTER" prefHeight="43.0" prefWidth="67.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
     <children>
       <Text fx:id="hoursText" fill="WHITE" font="$x1" strokeType="OUTSIDE" strokeWidth="0.0" text="hours :" />
@@ -131,18 +153,18 @@
       </TextField>
     </children>
   </HBox>
-  <Button fx:id="undoButton" mnemonicParsing="false" text="" GridPane.columnIndex="4" GridPane.rowIndex="2">
-  	<graphic>
-    	<ImageView>
-        	<Image url="@../images/Undo.png"/>
-        </ImageView>
+  <Button fx:id="undoButton" mnemonicParsing="false" onAction="#undo" text="" GridPane.columnIndex="4" GridPane.rowIndex="2">
+    <graphic>
+      <ImageView>
+        <Image url="@../images/Undo.png" />
+      </ImageView>
     </graphic>
   </Button>
-  <Button fx:id="redoButton" mnemonicParsing="false" text="" GridPane.columnIndex="5" GridPane.rowIndex="2">
-  	<graphic>
-    	<ImageView>
-        	<Image url="@../images/Redo.png"/>
-        </ImageView>
+  <Button fx:id="redoButton" mnemonicParsing="false" onAction="#redo" text="" GridPane.columnIndex="5" GridPane.rowIndex="2">
+    <graphic>
+      <ImageView>
+        <Image url="@../images/Redo.png" />
+      </ImageView>
     </graphic>
   </Button>
 </GridPane>
