@@ -1,23 +1,23 @@
 package main;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import interfaces.IClock;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Clock extends javafx.application.Application implements IClock {
+import interfaces.IClock;
+import interfaces.Observer;
+
+public class Clock  implements IClock {
 	
-	private int _hours, _minutes, _seconds;
-    
-    public static void main(String[] args) {
-		launch(args);
-	}	
+	public static Clock instance;
+	public MyTimer myTimer;
+	private int _hours, _minutes, _seconds, _timezone;
+	
+	private List<Observer> windowsOpen = new ArrayList<Observer>();
     
     @Override
-	public void start(Stage primaryStage) throws Exception{
+	public void startTimer() {
     	
-    	MyTimer myTimer = new MyTimer();
+    	myTimer = new MyTimer();
 		
 		this.setHours(12);
 		this.setMinutes(59);
@@ -26,24 +26,42 @@ public class Clock extends javafx.application.Application implements IClock {
 		myTimer.setClock(this);
 		myTimer.start();
     	
-		try {
-			Parent root = FXMLLoader.load(getClass().getResource("../fxml/fxml_example.fxml"));
-		    
-	        Scene scene = new Scene(root, 614, 428);
-	        
-	        primaryStage.setScene(scene);
-	        primaryStage.show();
-		} catch(Exception e) {
-			e.printStackTrace();
+	}
+    
+    public void addWindow(DigitalController cw){
+    	
+    	windowsOpen.add((Observer) cw);
+    	return;
+    }
+    
+    public void removeWindow(DigitalController cw){
+    	
+    	windowsOpen.remove(cw);
+    	return;
+    }
+    
+    public static Clock getInstance() {
+		
+		if (instance == null) {
+            synchronized (Clock .class){
+            				if (instance == null) {
+            							instance = new Clock ();
+            				}
+            }
 		}
+	return instance;
+		
 	}
     
     
 	@Override
 	public void notifyObservers() {
-		// TODO Auto-generated method stub
 		
-	}	
+		for(Observer o : windowsOpen ){
+			o.update();
+		}
+		
+	}
 	
 	//SETTERS bzw. GETTERS
 	
@@ -69,5 +87,13 @@ public class Clock extends javafx.application.Application implements IClock {
 
 	public void setSeconds(int _seconds) {
 		this._seconds = _seconds;
+	}
+
+	public int get_timezone() {
+		return _timezone;
+	}
+
+	public void set_timezone(int _timezone) {
+		this._timezone = _timezone;
 	}
 }

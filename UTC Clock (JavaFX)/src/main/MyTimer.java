@@ -2,19 +2,23 @@ package main;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import main.Clock;
 
 public class MyTimer {
 
 	private TimerTask _timerTask;
 	private Timer _timer;
 	private Clock _clock;
+	private static Clock singeltonClock = Clock.getInstance();
 	
 	public void start() {
 		_timer = new Timer();
-		_timerTask = new TimerTask() {
+		_timerTask = new TimerTask() {			
 		    @Override
 		    public void run () {
 		        updateClock();
+		        singeltonClock.notifyObservers();
+		        
 		    }
 		};
 		//schedule timer to execute every second

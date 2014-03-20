@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import main.Clock;
 
  
 public class ClockController<T> {
@@ -33,19 +34,15 @@ public class ClockController<T> {
 	@FXML	private Button setButton;
 	@FXML	private Button incButton;
 	@FXML	private Button decButton;
-	private List<ICommand> history = new ArrayList<ICommand>();
-	private List<ClockWindow> windowsOpen = new ArrayList<ClockWindow>();
+	private List<ICommand> history = new ArrayList<ICommand>();//2 stacks für un und redo
+	private static Clock singeltonClock;
 	
 	
-	//für jedes muss diese funktion aufgerufen werden
+	//für jedes command muss diese funktion aufgerufen werden
 	public void storeAndExecute(ICommand cmd) {//speichert die commands in eine history
         this.history.add(cmd);
         cmd.execute();      
      }
-	
-	public void storeOpenedWindow(ClockWindow cw){
-		this.windowsOpen.add(cw);
-	}
 	
 	@FXML
     private void openNewWindow(ActionEvent event)
@@ -65,10 +62,12 @@ public class ClockController<T> {
         	timezone = Integer.parseInt((String) timezoneChoice.getValue());
         }
         display = (String) displayChoice.getValue();
+        singeltonClock = Clock.getInstance();
+        singeltonClock.set_timezone(timezone);
         
         if("digital".equals(display) == true || "analog".equals(display) == true){//just to be sure...
         	
-        	ICommand showClock = new ComShow(display, timezone, x, y);
+        	ICommand showClock = new ComShow(display, x, y);
         	storeAndExecute(showClock);
         	System.out.println("Display: "+display+" Timezone: "+timezone+" x-Coordinate: "+x+" y-Coordinate: "+y);
         	return;
