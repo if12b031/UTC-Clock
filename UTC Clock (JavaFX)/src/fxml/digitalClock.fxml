@@ -44,15 +44,15 @@
   </Text>
   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="1">
     <children>
-      <Text fx:id="hoursOutput" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="00">
+      <Text fx:id="hoursOutput" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="">
         <font>
           <Font name="System Bold" size="65.0" fx:id="x1" />
         </font>
       </Text>
       <Text fill="WHITE" font="$x1" strokeType="OUTSIDE" strokeWidth="0.0" text=":" />
-      <Text fx:id="minutesOutput" fill="WHITE" font="$x1" strokeType="OUTSIDE" strokeWidth="0.0" text="00" />
+      <Text fx:id="minutesOutput" fill="WHITE" font="$x1" strokeType="OUTSIDE" strokeWidth="0.0" text="" />
       <Text fill="WHITE" font="$x1" strokeType="OUTSIDE" strokeWidth="0.0" text=":" />
-      <Text fx:id="secondsOutput" fill="WHITE" font="$x1" strokeType="OUTSIDE" strokeWidth="0.0" text="00" />
+      <Text fx:id="secondsOutput" fill="WHITE" font="$x1" strokeType="OUTSIDE" strokeWidth="0.0" text="" />
     </children>
     <padding>
       <Insets />

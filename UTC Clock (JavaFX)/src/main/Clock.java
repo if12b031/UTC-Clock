@@ -96,4 +96,20 @@ public class Clock  implements IClock {
 	public void set_timezone(int _timezone) {
 		this._timezone = _timezone;
 	}
+
+	public void incrementTime(int h, int m, int s) {
+		
+		_hours += h;
+		_minutes += m;
+		_seconds += s;
+		return;		
+	}
+
+	public void decrementTime(int h, int m, int s) {
+		
+		_hours -= h;
+		_minutes -= m;
+		_seconds -= s;
+		return;
+	}
 }

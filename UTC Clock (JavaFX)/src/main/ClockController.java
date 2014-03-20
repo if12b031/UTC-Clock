@@ -2,16 +2,15 @@ package main;
 
 import interfaces.ICommand;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Stack;
 
-import commands.ComShow;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-import main.Clock;
+
+import commands.ComShow;
 
  
 public class ClockController<T> {
@@ -34,13 +33,14 @@ public class ClockController<T> {
 	@FXML	private Button setButton;
 	@FXML	private Button incButton;
 	@FXML	private Button decButton;
-	private List<ICommand> history = new ArrayList<ICommand>();//2 stacks für un und redo
+	private Stack<ICommand> history = new Stack<ICommand>();
+	private Stack<ICommand> undoHistory = new Stack<ICommand>();
 	private static Clock singeltonClock;
 	
 	
 	//für jedes command muss diese funktion aufgerufen werden
 	public void storeAndExecute(ICommand cmd) {//speichert die commands in eine history
-        this.history.add(cmd);
+        this.history.push(cmd);
         cmd.execute();      
      }
 	
@@ -100,13 +100,18 @@ public class ClockController<T> {
 	        
 	        if(event.getSource().equals(setButton)){//SET-Button pressed
 	        	System.out.println("SET-Button pressed");
+	        	singeltonClock.setHours(h);
+	        	singeltonClock.setMinutes(m);
+	        	singeltonClock.setSeconds(s);
 	        	return;
 	        	
 	        }else if(event.getSource().equals(incButton)){//INC-Button pressed
 	        	System.out.println("INC-Button pressed");
+	        	singeltonClock.incrementTime(h, m, s);
 	        	return;
 	        	
 	        }else if(event.getSource().equals(decButton)){//DEC-Button pressed
+	        	singeltonClock.decrementTime(h, m, s);
 	        	System.out.println("DEC-Button pressed");
 	        	return;
 	        	
@@ -151,12 +156,16 @@ public class ClockController<T> {
 	@FXML
 	private void undo(ActionEvent event)
     {
+		
 		System.out.println("UNDO-Button pressed");
     }
 	
 	@FXML
 	private void redo(ActionEvent event)
     {
+		ICommand redoCommand = undoHistory.lastElement();
+		undoHistory.pop();
+		storeAndExecute(redoCommand);
 		System.out.println("REDO-Button pressed");
     }
 }
