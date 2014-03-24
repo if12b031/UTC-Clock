@@ -10,7 +10,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import interfaces.ICommand;
@@ -19,8 +18,8 @@ public class ComShow implements ICommand {
 	
 	private String _display;
 	private int _x,_y;
-	private static Clock singeltonClock;
 	private FXMLLoader fxmlLoader;
+	private Stage stage;
 	
 	public ComShow(String display, int x, int y){
 		_display = display;
@@ -46,7 +45,7 @@ public class ComShow implements ICommand {
 			fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 			root = (Parent) fxmlLoader.load(location.openStream());
         	        	
-            Stage stage = new Stage();
+            stage = new Stage();
             stage.setX(_x);
             stage.setY(_y);
             stage.setTitle("Clock");
@@ -66,6 +65,13 @@ public class ComShow implements ICommand {
         } catch (IOException e) {
             e.printStackTrace();
         }
+		
+	}
+
+	@Override
+	public void undo() {
+		
+		stage.hide();
 		
 	}	
 	

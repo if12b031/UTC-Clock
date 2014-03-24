@@ -9,7 +9,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
-
+import commands.ComDec;
+import commands.ComInc;
+import commands.ComSet;
 import commands.ComShow;
 
  
@@ -100,19 +102,20 @@ public class ClockController<T> {
 	        
 	        if(event.getSource().equals(setButton)){//SET-Button pressed
 	        	System.out.println("SET-Button pressed");
-	        	singeltonClock.setHours(h);
-	        	singeltonClock.setMinutes(m);
-	        	singeltonClock.setSeconds(s);
+	        	ComSet cmd = new ComSet(h,m,s);
+	        	storeAndExecute(cmd);
 	        	return;
 	        	
 	        }else if(event.getSource().equals(incButton)){//INC-Button pressed
 	        	System.out.println("INC-Button pressed");
-	        	singeltonClock.incrementTime(h, m, s);
+	        	ComInc cmd = new ComInc(h,m,s);
+	        	storeAndExecute(cmd);
 	        	return;
 	        	
 	        }else if(event.getSource().equals(decButton)){//DEC-Button pressed
-	        	singeltonClock.decrementTime(h, m, s);
 	        	System.out.println("DEC-Button pressed");
+	        	ComDec cmd = new ComDec(h,m,s);
+	        	storeAndExecute(cmd);
 	        	return;
 	        	
 	        }   
@@ -156,7 +159,10 @@ public class ClockController<T> {
 	@FXML
 	private void undo(ActionEvent event)
     {
-		
+		ICommand undoCommand = history.lastElement();
+		undoCommand.undo();
+		undoHistory.push(undoCommand);
+		history.pop();
 		System.out.println("UNDO-Button pressed");
     }
 	
@@ -164,8 +170,8 @@ public class ClockController<T> {
 	private void redo(ActionEvent event)
     {
 		ICommand redoCommand = undoHistory.lastElement();
-		undoHistory.pop();
 		storeAndExecute(redoCommand);
+		undoHistory.pop();
 		System.out.println("REDO-Button pressed");
     }
 }
