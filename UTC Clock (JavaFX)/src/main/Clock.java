@@ -10,8 +10,8 @@ public class Clock  implements IClock {
 	
 	public static Clock instance;
 	public MyTimer myTimer;
-	private int _hours, _minutes, _seconds, _timezone;
-	
+	private int _hours, _minutes, _seconds;
+
 	private List<Observer> windowsOpen = new ArrayList<Observer>();
     
     @Override
@@ -87,14 +87,6 @@ public class Clock  implements IClock {
 
 	public void setSeconds(int _seconds) {
 		this._seconds = _seconds;
-	}
-
-	public int get_timezone() {
-		return _timezone;
-	}
-
-	public void set_timezone(int _timezone) {
-		this._timezone = _timezone;
 	}
 
 	public void incrementTime(int h, int m, int s) {

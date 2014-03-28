@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?language javascript?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane alignment="CENTER" hgap="10.0" prefHeight="428.0" prefWidth="-1.0" styleClass="root" vgap="50.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="main.ClockController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="-1.0" minWidth="10.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+  </columnConstraints>
+  <padding>
+    <Insets bottom="10.0" left="25.0" right="25.0" top="25.0" />
+  </padding>
+  <rowConstraints>
+    <RowConstraints maxHeight="80.0" minHeight="10.0" prefHeight="80.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="80.0" minHeight="10.0" prefHeight="80.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="80.0" minHeight="10.0" prefHeight="80.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="80.0" minHeight="10.0" prefHeight="80.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="80.0" minHeight="10.0" prefHeight="80.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="80.0" minHeight="10.0" prefHeight="80.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="80.0" minHeight="10.0" prefHeight="80.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+  <stylesheets>
+    <URL value="@../css/Clock.css" />
+  </stylesheets>
+  <Text id="welcome-text" disable="false" fill="WHITE" focusTraversable="false" scaleX="1.2126349418505238" scaleY="1.0" smooth="true" strikethrough="false" text="UTC-Clock" textAlignment="LEFT" underline="false" visible="true" GridPane.columnIndex="0" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
+    <effect>
+      <Lighting>
+        <bumpInput>
+          <Shadow />
+        </bumpInput>
+        <light>
+          <javafx.scene.effect.Light.Distant />
+        </light>
+      </Lighting>
+    </effect>
+    <font>
+      <Font name="LilyUPC Bold" size="55.0" />
+    </font>
+  </Text>
+  <VBox prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
+    <children>
+      <Text fx:id="hoursText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="hours :">
+        <font>
+          <Font name="System Bold" size="18.0" fx:id="x1" />
+        </font>
+      </Text>
+      <Text fx:id="minutesText" fill="WHITE" font="$x1" strokeType="OUTSIDE" strokeWidth="0.0" text="minutes :" />
+      <Text fx:id="secondsText" fill="WHITE" font="$x1" strokeType="OUTSIDE" strokeWidth="0.0" text="seconds :" />
+    </children>
+  </VBox>
+  <Button fx:id="setButton" mnemonicParsing="false" onAction="#changeTime" text="SET" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="3" />
+  <Button fx:id="incButton" mnemonicParsing="false" onAction="#changeTime" text="INC" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="4" />
+  <Button fx:id="decButton" mnemonicParsing="false" onAction="#changeTime" text="DEC" textAlignment="CENTER" GridPane.columnIndex="0" GridPane.halignment="LEFT" GridPane.rowIndex="5" />
+  <Button fx:id="undoButton" mnemonicParsing="false" onAction="#undo" text="" GridPane.columnIndex="0" GridPane.rowIndex="6">
+    <graphic>
+      <ImageView>
+        <Image url="@../images/Undo.png" />
+      </ImageView>
+    </graphic>
+  </Button>
+  <Button fx:id="redoButton" mnemonicParsing="false" onAction="#redo" text="" GridPane.columnIndex="2" GridPane.rowIndex="6">
+    <graphic>
+      <ImageView>
+        <Image url="@../images/Redo.png" />
+      </ImageView>
+    </graphic>
+  </Button>
+  <ComboBox fx:id="displayChoice" promptText="Display" GridPane.columnIndex="2" GridPane.rowIndex="2">
+    <items>
+      <FXCollections fx:factory="observableArrayList">
+        <String fx:value="Uhr(24h)" />
+        <String fx:value="Uhr(12h)" />
+      </FXCollections>
+    </items>
+  </ComboBox>
+  <ComboBox fx:id="timezoneChoice" prefHeight="21.0" prefWidth="77.888671875" promptText="Timezone" visibleRowCount="5" GridPane.columnIndex="2" GridPane.rowIndex="3">
+    <items>
+      <FXCollections fx:factory="observableArrayList">
+        <String fx:value="+12" />
+        <String fx:value="+11" />
+        <String fx:value="+10" />
+        <String fx:value="+9" />
+        <String fx:value="+8" />
+        <String fx:value="+7" />
+        <String fx:value="+6" />
+        <String fx:value="+5" />
+        <String fx:value="+4" />
+        <String fx:value="+3" />
+        <String fx:value="+2" />
+        <String fx:value="+1" />
+        <String fx:value="UTC" />
+        <String fx:value="-1" />
+        <String fx:value="-2" />
+        <String fx:value="-3" />
+        <String fx:value="-4" />
+        <String fx:value="-5" />
+        <String fx:value="-6" />
+        <String fx:value="-7" />
+        <String fx:value="-8" />
+        <String fx:value="-9" />
+        <String fx:value="-10" />
+        <String fx:value="-11" />
+        <String fx:value="-12" />
+      </FXCollections>
+    </items>
+  </ComboBox>
+  <GridPane alignment="CENTER" prefHeight="149.0" prefWidth="87.0" GridPane.columnIndex="2" GridPane.rowIndex="4">
+    <children>
+      <Text fill="WHITE" font="$x1" strokeType="OUTSIDE" strokeWidth="0.0" text="x :" GridPane.columnIndex="0" GridPane.rowIndex="0">
+        <GridPane.margin>
+          <Insets left="10.0" fx:id="x3" />
+        </GridPane.margin>
+      </Text>
+      <Text fill="WHITE" font="$x1" strokeType="OUTSIDE" strokeWidth="0.0" text="y :" GridPane.columnIndex="0" GridPane.margin="$x3" GridPane.rowIndex="1" />
+    </children>
+    <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="64.0" minWidth="10.0" prefWidth="40.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="97.0" minWidth="10.0" prefWidth="68.0" />
+    </columnConstraints>
+    <rowConstraints>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+  </GridPane>
+  <Button fx:id="showButton" alignment="CENTER" disable="false" mnemonicParsing="false" onAction="#openNewWindow" prefHeight="68.0" prefWidth="126.0" text="SHOW" textAlignment="CENTER" underline="false" wrapText="false" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+    <font>
+      <Font name="System Bold" size="20.0" />
+    </font>
+  </Button>
+  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="... Type in the time" GridPane.columnIndex="1" GridPane.rowIndex="2">
+    <fill>
+      <Color blue="0.928" green="1.000" red="0.400" fx:id="x4" />
+    </fill>
+    <font>
+      <Font name="System Bold" size="12.0" fx:id="x2" />
+    </font>
+  </Text>
+  <Text fill="#66edff" font="$x2" strokeType="OUTSIDE" strokeWidth="0.0" text="... set the time you want" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+  <Text fill="$x4" font="$x2" strokeType="OUTSIDE" strokeWidth="0.0" text="... increment the time with your input" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+  <Text fill="$x4" font="$x2" strokeType="OUTSIDE" strokeWidth="0.0" text="decrement the time with your input" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+  <Text fill="$x4" font="$x2" strokeType="OUTSIDE" strokeWidth="0.0" text="undo the last command" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+  <Text fill="$x4" font="$x2" strokeType="OUTSIDE" strokeWidth="0.0" text="display format the clock should be shown" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+  <Text fill="$x4" font="$x2" strokeType="OUTSIDE" strokeWidth="0.0" text="timezone which the time should be in" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+  <Text fill="$x4" font="$x2" strokeType="OUTSIDE" strokeWidth="0.0" text="x-y-Coordinate which define the position of the shown Clock" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+  <Text fill="$x4" font="$x2" strokeType="OUTSIDE" strokeWidth="0.0" text="Show the clock with the parameters you put in before" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+  <Text fill="$x4" font="$x2" strokeType="OUTSIDE" strokeWidth="0.0" text="redo the last undo command" GridPane.columnIndex="3" GridPane.rowIndex="6" />
+  <Button mnemonicParsing="false" text="Makro" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+  <Text fill="#66ffed" font="$x2" strokeType="OUTSIDE" strokeWidth="0.0" text="... a row of commands will execute after you click this button" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+</GridPane>

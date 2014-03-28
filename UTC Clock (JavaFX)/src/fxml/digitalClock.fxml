@@ -27,7 +27,7 @@
   <stylesheets>
     <URL value="@../css/digitalClock.css" />
   </stylesheets>
-  <Text id="clockName" disable="false" fill="WHITE" focusTraversable="false" scaleX="1.2126349418505238" scaleY="1.0" smooth="true" strikethrough="false" text="digital-Clock" textAlignment="LEFT" underline="false" visible="true" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
+  <Text id="clockName" fx:id="title" disable="false" fill="WHITE" focusTraversable="false" scaleX="1.2126349418505238" scaleY="1.0" smooth="true" strikethrough="false" textAlignment="LEFT" underline="false" visible="true" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
     <effect>
       <Lighting>
         <bumpInput>
@@ -53,6 +53,7 @@
       <Text fx:id="minutesOutput" fill="WHITE" font="$x1" strokeType="OUTSIDE" strokeWidth="0.0" text="" />
       <Text fill="WHITE" font="$x1" strokeType="OUTSIDE" strokeWidth="0.0" text=":" />
       <Text fx:id="secondsOutput" fill="WHITE" font="$x1" strokeType="OUTSIDE" strokeWidth="0.0" text="" />
+      <Text id="secondsOutput" fx:id="appendixOutput" fill="WHITE" font="$x1" strokeType="OUTSIDE" strokeWidth="0.0" text="" />
     </children>
     <padding>
       <Insets />

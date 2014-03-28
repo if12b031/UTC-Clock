@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import commands.ComDec;
+import commands.ComHelp;
 import commands.ComInc;
 import commands.ComSet;
 import commands.ComShow;
@@ -37,7 +38,6 @@ public class ClockController<T> {
 	@FXML	private Button decButton;
 	private Stack<ICommand> history = new Stack<ICommand>();
 	private Stack<ICommand> undoHistory = new Stack<ICommand>();
-	private static Clock singeltonClock;
 	
 	
 	//für jedes command muss diese funktion aufgerufen werden
@@ -64,12 +64,13 @@ public class ClockController<T> {
         	timezone = Integer.parseInt((String) timezoneChoice.getValue());
         }
         display = (String) displayChoice.getValue();
-        singeltonClock = Clock.getInstance();
-        singeltonClock.set_timezone(timezone);
         
-        if("digital".equals(display) == true || "analog".equals(display) == true){//just to be sure...
+        
+        
+        if("Uhr(24h)".equals(display) == true || "Uhr(12h)".equals(display) == true){//just to be sure...
         	
-        	ICommand showClock = new ComShow(display, x, y);
+        	
+        	ICommand showClock = new ComShow(display,timezone,x, y);
         	storeAndExecute(showClock);
         	System.out.println("Display: "+display+" Timezone: "+timezone+" x-Coordinate: "+x+" y-Coordinate: "+y);
         	return;
@@ -154,6 +155,9 @@ public class ClockController<T> {
 	private void help(ActionEvent event)
     {
 		System.out.println("HELP-Button pressed window will open");
+		ComHelp cmd = new ComHelp();
+    	storeAndExecute(cmd);
+    	return;
     }
 	
 	@FXML
@@ -173,5 +177,27 @@ public class ClockController<T> {
 		storeAndExecute(redoCommand);
 		undoHistory.pop();
 		System.out.println("REDO-Button pressed");
+    }
+	//MAKROS- check function after this Line !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	@FXML
+	private void makroAction1(ActionEvent event)
+    {
+		ICommand Command4 = new ComShow("Uhr(12h)", 0, 100, 100);//(display,timezone, x,  y)
+		ICommand Command5 = new ComShow("Uhr(24h)", 0, 700, 100);
+		storeAndExecute(Command4);
+		storeAndExecute(Command5);
+		System.out.println("Makro1-Button pressed");
+    }
+	
+	@FXML
+	private void makroAction2(ActionEvent event)
+    {
+		ICommand Command1 = new ComSet(10, 10, 10);
+		ICommand Command2 = new ComInc(10, 10, 10);
+		ICommand Command3 = new ComDec(3, 3, 3);
+		storeAndExecute(Command1);
+		storeAndExecute(Command2);
+		storeAndExecute(Command3);
+		System.out.println("Makro1-Button pressed");
     }
 }

@@ -31,7 +31,7 @@ public class Main extends javafx.application.Application{
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("../fxml/fxml_example.fxml"));
 		    
-	        Scene scene = new Scene(root, 614, 428);
+	        Scene scene = new Scene(root, 700, 450);
 	        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>(){
 	        	@Override
 	        	public void handle(WindowEvent event){

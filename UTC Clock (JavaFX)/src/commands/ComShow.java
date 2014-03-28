@@ -17,12 +17,13 @@ import interfaces.ICommand;
 public class ComShow implements ICommand {
 	
 	private String _display;
-	private int _x,_y;
+	private int _x,_y,_timezone;
 	private FXMLLoader fxmlLoader;
 	private Stage stage;
 	
-	public ComShow(String display, int x, int y){
+	public ComShow(String display,int timezone, int x, int y){
 		_display = display;
+		_timezone = timezone;
 		_x = x;
 		_y = y;
 	}
@@ -33,34 +34,38 @@ public class ComShow implements ICommand {
 		Parent root;
 		URL location;
         try {
-        	if("analog".equals(_display) == true){
-        		location = getClass().getResource("../fxml/analogClock.fxml");
-        		//root = (GridPane)FXMLLoader.load(getClass().getResource("../fxml/analogClock.fxml"));
-        	}else{
-        		location = getClass().getResource("../fxml/digitalClock.fxml");
-        		//root = (GridPane)FXMLLoader.load(getClass().getResource("../fxml/digitalClock.fxml"));
-        	}
+        	location = getClass().getResource("../fxml/digitalClock.fxml");
+        	//root = (GridPane)FXMLLoader.load(getClass().getResource("../fxml/digitalClock.fxml"));
         	fxmlLoader = new FXMLLoader();
 			fxmlLoader.setLocation(location);
 			fxmlLoader.setBuilderFactory(new JavaFXBuilderFactory());
 			root = (Parent) fxmlLoader.load(location.openStream());
         	        	
             stage = new Stage();
+            System.out.println("x = " + _x +" "+ "y = "+ _y);
             stage.setX(_x);
             stage.setY(_y);
             stage.setTitle("Clock");
-            stage.setScene(new Scene(root, 450, 450));
+            if("Uhr(12h)".equals(_display)){
+            	stage.setScene(new Scene(root, 550, 450));
+            }else{
+            	stage.setScene(new Scene(root, 450, 450));
+            }
             stage.setOnCloseRequest(new EventHandler<WindowEvent>(){
 
 				@Override
 				public void handle(WindowEvent arg0) {
 					
-				Clock.getInstance().removeWindow((DigitalController) fxmlLoader.getController());;
+				Clock.getInstance().removeWindow((DigitalController) fxmlLoader.getController());
 					
 					
 				}
             	
             });
+            DigitalController dc = fxmlLoader.getController();
+            dc.set_timezone(_timezone);
+            dc.set_display(_display);
+            dc.check_display();
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
