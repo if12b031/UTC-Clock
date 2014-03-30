@@ -18,7 +18,8 @@ public class DigitalController implements Observer, Initializable {
 	@FXML private Text appendixOutput;
 	@FXML private Text title;
 	private static Clock singeltonClock;
-	int _timezone;
+	private int _timezone;
+	private String _timezoneText;
 	String _display;
 	String _am_pm;
 	
@@ -65,8 +66,18 @@ public class DigitalController implements Observer, Initializable {
 		}else{
 			title.setText("24h-Clock");
 		}
-		timezoneOutput.setText(Integer.toString(_timezone));
-		
+		timezoneOutput.setText((Integer.toString(_timezone) 
+				+ " (" 
+				+ _timezoneText) 
+				+ ")");		
+	}
+
+	public String get_timezoneText() {
+		return _timezoneText;
+	}
+
+	public void set_timezoneText(String _timezoneText) {
+		this._timezoneText = _timezoneText;
 	}
 	
 	

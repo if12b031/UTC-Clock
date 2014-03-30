@@ -16,14 +16,15 @@ import interfaces.ICommand;
 
 public class ComShow implements ICommand {
 	
-	private String _display;
+	private String _display, _timezoneText;
 	private int _x,_y,_timezone;
 	private FXMLLoader fxmlLoader;
 	private Stage stage;
 	
-	public ComShow(String display,int timezone, int x, int y){
+	public ComShow(String display,String timezoneText, int timezone, int x, int y){
 		_display = display;
 		_timezone = timezone;
+		_timezoneText = timezoneText;
 		_x = x;
 		_y = y;
 	}
@@ -64,6 +65,7 @@ public class ComShow implements ICommand {
             });
             DigitalController dc = fxmlLoader.getController();
             dc.set_timezone(_timezone);
+            dc.set_timezoneText(_timezoneText);
             dc.set_display(_display);
             dc.check_display();
             stage.show();

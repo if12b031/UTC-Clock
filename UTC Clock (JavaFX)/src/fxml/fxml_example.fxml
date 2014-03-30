@@ -95,31 +95,31 @@
   <ComboBox fx:id="timezoneChoice" prefHeight="21.0" prefWidth="77.888671875" promptText="Timezone" visibleRowCount="5" GridPane.columnIndex="1" GridPane.rowIndex="3">
     <items>
       <FXCollections fx:factory="observableArrayList">
-        <String fx:value="+12" />
-        <String fx:value="+11" />
-        <String fx:value="+10" />
-        <String fx:value="+9" />
-        <String fx:value="+8" />
-        <String fx:value="+7" />
-        <String fx:value="+6" />
-        <String fx:value="+5" />
-        <String fx:value="+4" />
-        <String fx:value="+3" />
-        <String fx:value="+2" />
-        <String fx:value="+1" />
-        <String fx:value="UTC" />
-        <String fx:value="-1" />
-        <String fx:value="-2" />
-        <String fx:value="-3" />
-        <String fx:value="-4" />
-        <String fx:value="-5" />
-        <String fx:value="-6" />
-        <String fx:value="-7" />
-        <String fx:value="-8" />
-        <String fx:value="-9" />
-        <String fx:value="-10" />
-        <String fx:value="-11" />
-        <String fx:value="-12" />
+        <String fx:value="+12 (Fiji, Nauru, New Zealeand)" />
+        <String fx:value="+11 (Solomon Islands, Vanuatu)" />
+        <String fx:value="+10 (Papua New Guinea)" />
+        <String fx:value="+9 (Japan, North Korea, South Korea)" />
+        <String fx:value="+8 (Taiwan, China, Indonesia)" />
+        <String fx:value="+7 (Viatnam, Thailand, Cambodia)" />
+        <String fx:value="+6 (Bangladesh, Kyrgyzstan)"/>
+        <String fx:value="+5 (Maldives, Pakistan, Turkmenistan)" />
+        <String fx:value="+4 (Armenia, United Arab Emirates)" />
+        <String fx:value="+3 (Iraq, Kenia, Madagascar)" />
+        <String fx:value="+2 (Bulgaria, Egypt, Greece)" />
+        <String fx:value="+1 (Austria, Italy, Nigeria)" />
+        <String fx:value="UTC (Ghana, Iceland, Ireland)" />
+        <String fx:value="-1 (Cape Verde)" />
+        <String fx:value="-2 (South Georgia, South Sandwich Islands)" />
+        <String fx:value="-3 (Argentinia, Denmark, Uruguay)" />
+        <String fx:value="-4 (Bolivia, Chile, Paraguay)" />
+        <String fx:value="-5 (Bahamas, Cuba, Ecuador)" />
+        <String fx:value="-6 (Costa RIca, El Salvador, Guatemala)" />
+        <String fx:value="-7 (Alberta, British Columbia)" />
+        <String fx:value="-8 (Clipperton Island, Pitcairn Islands)" />
+        <String fx:value="-9 (Alaska, Gambier Islands)" />
+        <String fx:value="-10 (Cook Islands, Hawaii)" />
+        <String fx:value="-11 (United States Minor Outlying Islands)" />
+        <String fx:value="-12 (Baker Island, Howland Island)" />
       </FXCollections>
     </items>
   </ComboBox>
