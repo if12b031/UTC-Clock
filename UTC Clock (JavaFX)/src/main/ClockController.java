@@ -196,8 +196,8 @@ public class ClockController<T> {
 	private void makroAction2(ActionEvent event)
     {
 		ICommand Command1 = new ComSet(10, 10, 10);
-		ICommand Command2 = new ComInc(10, 10, 10);
-		ICommand Command3 = new ComDec(3, 3, 3);
+		ICommand Command2 = new ComShow("Uhr(12h)", "Ghana, Iceland, Ireland", 0, 100, 100);//(display,timezone, x,  y)
+		ICommand Command3= new ComShow("Uhr(24h)", "Ghana, Iceland, Ireland", 0, 700, 100);
 		storeAndExecute(Command1);
 		storeAndExecute(Command2);
 		storeAndExecute(Command3);
