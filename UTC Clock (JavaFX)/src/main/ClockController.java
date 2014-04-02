@@ -54,34 +54,37 @@ public class ClockController<T> {
         int x,y, timezone;
         String display;
         
-        try{
+        try {
             x = Integer.parseInt(xCoord.getText());
-            y = Integer.parseInt(yCoord.getText());
+            y = Integer.parseInt(yCoord.getText());            
+            
+            String[] splitTimezone = ((String) timezoneChoice.getValue()).split("\\(", 2);
+            String TimezoneNumber = splitTimezone[0].replace(" ", "");
+            String TimezoneText = splitTimezone[1].replace(")", "");
        
-        if("UTC".equals((String) timezoneChoice.getValue()) == true){
+        if("UTC".equals(TimezoneText) == true){
         	timezone = 0;
         }else{
-        	timezone = Integer.parseInt((String) timezoneChoice.getValue());
+        	timezone = Integer.parseInt(TimezoneNumber);
         }
-        display = (String) displayChoice.getValue();
-        
-        
+        display = (String) displayChoice.getValue();        
         
         if("Uhr(24h)".equals(display) == true || "Uhr(12h)".equals(display) == true){//just to be sure...
         	
         	
-        	ICommand showClock = new ComShow(display,timezone,x, y);
+        	ICommand showClock = new ComShow(display, TimezoneText, timezone,x, y);
         	storeAndExecute(showClock);
         	System.out.println("Display: "+display+" Timezone: "+timezone+" x-Coordinate: "+x+" y-Coordinate: "+y);
         	return;
         	
         }else {
-        System.out.println("No value set at Display-ComboButton");
+        	System.out.println("No value set at Display-ComboButton");
         }
         System.out.println("Display: "+display+" Timezone: "+timezone+" x-Coordinate: "+x+" y-Coordinate: "+y);
         
         }catch(NumberFormatException e){
         	System.out.println("Timezone, x or y Coordinate isn't a number!");
+        	e.printStackTrace();
         }
         return;
     }
@@ -182,8 +185,8 @@ public class ClockController<T> {
 	@FXML
 	private void makroAction1(ActionEvent event)
     {
-		ICommand Command4 = new ComShow("Uhr(12h)", 0, 100, 100);//(display,timezone, x,  y)
-		ICommand Command5 = new ComShow("Uhr(24h)", 0, 700, 100);
+		ICommand Command4 = new ComShow("Uhr(12h)", "Ghana, Iceland, Ireland", 0, 100, 100);//(display,timezone, x,  y)
+		ICommand Command5 = new ComShow("Uhr(24h)", "Ghana, Iceland, Ireland", 0, 700, 100);
 		storeAndExecute(Command4);
 		storeAndExecute(Command5);
 		System.out.println("Makro1-Button pressed");
@@ -192,9 +195,9 @@ public class ClockController<T> {
 	@FXML
 	private void makroAction2(ActionEvent event)
     {
-		ICommand Command1 = new ComSet(0, 0, 0);
-		ICommand Command2 = new ComShow("Uhr(12h)", 0, 100, 100);//(display,timezone, x,  y)
-		ICommand Command3 = new ComShow("Uhr(24h)", 0, 700, 100);
+		ICommand Command1 = new ComSet(10, 10, 10);
+		ICommand Command2 = new ComShow("Uhr(12h)", "Ghana, Iceland, Ireland", 0, 100, 100);//(display,timezone, x,  y)
+		ICommand Command3= new ComShow("Uhr(24h)", "Ghana, Iceland, Ireland", 0, 700, 100);
 		storeAndExecute(Command1);
 		storeAndExecute(Command2);
 		storeAndExecute(Command3);

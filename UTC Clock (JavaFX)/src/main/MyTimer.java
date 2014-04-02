@@ -42,10 +42,6 @@ public class MyTimer {
 				_clock.setHours((currentHours + 1) % 24);
 			}
 		}	
-		
-		System.out.println("It is: " + _clock.getHours() + ":"
-				+ _clock.getMinutes() + ":"
-				+ _clock.getSeconds() + " o'clock");
 	}
 	
 	public void pause() {
