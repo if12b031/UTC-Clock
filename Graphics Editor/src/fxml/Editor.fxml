@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?language javascript?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane id="gridPane" fx:id="grid" alignment="CENTER" hgap="0.0" maxHeight="-1.0" maxWidth="-1.0" prefHeight="488.999977929685" prefWidth="708.9998779296875" styleClass="root" vgap="0.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="main.EditorController">
+  <children>
+    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Graphics Editor" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="0" GridPane.valignment="CENTER">
+      <font>
+        <Font name="System Bold" size="22.0" />
+      </font>
+    </Text>
+    <ToolBar maxHeight="-1.0" maxWidth="-1.0" orientation="HORIZONTAL" prefHeight="51.0" prefWidth="705.9998779296875" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+      <items>
+        <HBox alignment="CENTER_RIGHT" disable="false" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="16.0" prefHeight="41.0" prefWidth="623.0">
+          <children>
+            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+              <image>
+                <Image url="@../../bin/assets/viereck.png" />
+              </image>
+              <HBox.margin>
+                <Insets right="5.0" fx:id="x1" />
+              </HBox.margin>
+            </ImageView>
+            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" HBox.margin="$x1">
+              <image>
+                <Image url="@../../bin/assets/dreieck.png" />
+              </image>
+            </ImageView>
+            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" HBox.margin="$x1">
+              <image>
+                <Image url="@../../bin/assets/elipse.png" />
+              </image>
+            </ImageView>
+            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" HBox.margin="$x1">
+              <image>
+                <Image url="@../../bin/assets/rechteck.png" />
+              </image>
+            </ImageView>
+            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+              <image>
+                <Image url="@../../bin/assets/kreis.png" />
+              </image>
+              <HBox.margin>
+                <Insets right="20.0" />
+              </HBox.margin>
+            </ImageView>
+            <Label text="Color:" textAlignment="LEFT">
+              <HBox.margin>
+                <Insets right="5.0" fx:id="x1" />
+              </HBox.margin>
+            </Label>
+            <ColorPicker id="lineColor" fx:id="colorPicker" onAction="#setLineColor" />
+            <Label alignment="CENTER" text="Strength:">
+              <HBox.margin>
+                <Insets left="5.0" right="5.0" />
+              </HBox.margin>
+            </Label>
+            <Slider fx:id="slider" orientation="HORIZONTAL" />
+            <Button fx:id="undoButton" mnemonicParsing="false" onAction="#undo" text="">
+              <graphic>
+                <ImageView>
+                  <Image url="@../assets/undo.png" />
+                </ImageView>
+              </graphic>
+              <HBox.margin>
+                <Insets left="20.0" />
+              </HBox.margin>
+            </Button>
+          </children>
+        </HBox>
+      </items>
+    </ToolBar>
+  </children>
+  <columnConstraints>
+    <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="SOMETIMES" maxWidth="155.0" minWidth="5.0" prefWidth="39.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="562.0" minWidth="10.0" prefWidth="528.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="56.0" minHeight="10.0" prefHeight="56.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="381.0" minHeight="10.0" prefHeight="381.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="142.0" minHeight="10.0" prefHeight="51.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+</GridPane>
