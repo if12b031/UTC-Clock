@@ -1,6 +1,7 @@
 package main;
 
 import interfaces.ICommand;
+import interfaces.IMediator;
 
 import java.net.URL;
 import java.util.NoSuchElementException;
@@ -24,7 +25,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
-public class EditorController implements Initializable {
+public class EditorController implements Initializable,IMediator {
 	
 	@FXML private GridPane grid;
 	@FXML private Slider slider;
@@ -141,6 +142,13 @@ public class EditorController implements Initializable {
 			System.out.println("There was no last Command executed!");
 		}
     }
+
+	@Override
+	public void paintShape() {
+		slider.disableProperty().setValue(true);
+		//all buttons disable that are not used if i type on some of the shape icons
+		
+	}
 	
 	
 	

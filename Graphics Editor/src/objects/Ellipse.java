@@ -1,0 +1,18 @@
+package objects;
+
+import interfaces.IPrototyp;
+
+public class Ellipse implements IPrototyp {
+
+	@Override
+	public Object clone() {
+		
+		try {
+			return super.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+}
