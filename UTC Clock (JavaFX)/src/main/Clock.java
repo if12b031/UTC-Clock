@@ -40,6 +40,10 @@ public class Clock  implements IClock {
     	return;
     }
     
+    protected Clock(){
+    	
+    }
+    
     public static Clock getInstance() {
 		
 		if (instance == null) {

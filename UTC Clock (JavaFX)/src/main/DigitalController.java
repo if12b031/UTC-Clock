@@ -34,6 +34,12 @@ public class DigitalController implements Observer, Initializable {
 			hoursOutput.setText(String.format("%02d", (singeltonClock.getHours()+_timezone)%12));
 			minutesOutput.setText(String.format("%02d", (singeltonClock.getMinutes())%60));
 			secondsOutput.setText(String.format("%02d", (singeltonClock.getSeconds())%60));	
+			if(((singeltonClock.getHours()+this._timezone)%24) < 12){
+				_am_pm = "am";
+			}else{
+				_am_pm = "pm";
+			}			
+			appendixOutput.setText(" " + _am_pm);
 		}
 	}
 
@@ -57,7 +63,7 @@ public class DigitalController implements Observer, Initializable {
 		
 		if("Uhr(12h)".equals(this._display)){
 			title.setText("12h-Clock");
-			if(((singeltonClock.getHours()+this._timezone)%24) < 13){
+			if(((singeltonClock.getHours()+this._timezone)%24) < 12){
 				_am_pm = "am";
 			}else{
 				_am_pm = "pm";
