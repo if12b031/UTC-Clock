@@ -1,18 +1,14 @@
 package objects;
 
-import interfaces.IPrototyp;
+public class Ellipse extends Shape {
 
-public class Ellipse implements IPrototyp {
+	public Ellipse(){
+	    type = "Ellipse";
+	}
 
 	@Override
-	public Object clone() {
-		
-		try {
-			return super.clone();
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
-		return null;
+	public void draw() {
+	    System.out.println("Inside Ellipse::draw() method.");
 	}
 
 }

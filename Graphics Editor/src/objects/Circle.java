@@ -1,13 +1,15 @@
 package objects;
 
-import interfaces.IPrototyp;
 
-public class Circle extends Ellipse implements IPrototyp {
+public class Circle extends Ellipse {
+
+	public Circle(){
+	    type = "Circle";
+	}
 
 	@Override
-	public Object clone(){
-		
-		return super.clone();
+	public void draw() {
+	    System.out.println("Inside Circle::draw() method.");
 	}
 
 }

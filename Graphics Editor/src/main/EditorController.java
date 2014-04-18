@@ -9,6 +9,11 @@ import java.util.ResourceBundle;
 import java.util.Stack;
 
 import commands.ComChangeLineWidth;
+import commands.ComPaintCircle;
+import commands.ComPaintElipse;
+import commands.ComPaintRectangle;
+import commands.ComPaintSquare;
+import commands.ComPaintTriangle;
 import commands.ComSetLineColor;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -20,6 +25,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Slider;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
@@ -30,8 +37,27 @@ public class EditorController implements Initializable,IMediator {
 	@FXML private GridPane grid;
 	@FXML private Slider slider;
 	@FXML private ColorPicker colorPicker;
+	@FXML private ImageView rectangle;
+	@FXML private ImageView square;
+	@FXML private ImageView triangle;
+	@FXML private ImageView elipse;
+	@FXML private ImageView circle;
+	
+	Image _rectangleShiny = new Image("assets/rechteck_marked.png",true);
+	Image _rectangle = new Image("assets/rechteck.png",true);
+	Image _squareShiny = new Image("assets/viereck_marked.png",true);
+	Image _square = new Image("assets/viereck.png",true);
+	Image _elipseShiny = new Image("assets/elipse_marked.png",true);
+	Image _elipse = new Image("assets/elipse.png",true);
+	Image _triangleShiny = new Image("assets/dreieck_marked.png",true);
+	Image _triangle = new Image("assets/dreieck.png",true);
+	Image _circleShiny = new Image("assets/kreis_marked.png",true);
+	Image _circle = new Image("assets/kreis.png",true);
+	
+	public static EventHandler<MouseEvent> actualDragEventHandler;
 	
 	private GraphicsContext gc;
+	private Canvas canvas;
 	
 	private Stack<ICommand> history = new Stack<ICommand>();
 	private Stack<ICommand> undoHistory = new Stack<ICommand>();
@@ -42,39 +68,10 @@ public class EditorController implements Initializable,IMediator {
 		Canvas canvas = new Canvas(400, 300);
 		final GraphicsContext gc = canvas.getGraphicsContext2D();
 		initDraw(gc);
-		
-		canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,
-                new EventHandler<MouseEvent>(){
- 
-            @Override
-            public void handle(MouseEvent event) {
-                gc.beginPath();
-                gc.moveTo(event.getX(), event.getY());
-                gc.stroke();
-            }
-        });
-         
-        canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED,
-                new EventHandler<MouseEvent>(){
- 
-            @Override
-            public void handle(MouseEvent event) {
-                gc.lineTo(event.getX(), event.getY());
-                gc.stroke();
-            }
-        });
- 
-        canvas.addEventHandler(MouseEvent.MOUSE_RELEASED,
-                new EventHandler<MouseEvent>(){
- 
-            @Override
-            public void handle(MouseEvent event) {
- 
-            }
-        });
-        
+		setHandlers(canvas); 
         colorPicker.setValue(Color.BLACK);
         this.gc = gc;
+        this.canvas = canvas;
         
         slider.valueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> ov,
@@ -90,13 +87,50 @@ public class EditorController implements Initializable,IMediator {
         grid.add(canvas, 1, 1);
 	}
 	
-	/*private void changeLineWidth(){
-		ComChangeLineWidth cmd = new ComChangeLineWidth(gc, slider.getValue(), old_val.doubleValue());
-		storeAndExecute(cmd);
-		gc = cmd.get_gc();
-	}*/
+	private void setHandlers(Canvas canvas) {
+		
+		canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,
+                new EventHandler<MouseEvent>(){
+ 
+            @Override
+            public void handle(MouseEvent event) {
+                gc.beginPath();
+                gc.moveTo(event.getX(), event.getY());
+                gc.stroke();
+            }
+        });
+
+        actualDragEventHandler = new EventHandler<MouseEvent>(){
+ 
+            @Override
+            public void handle(MouseEvent event) {
+                gc.lineTo(event.getX(), event.getY());
+                gc.stroke();
+            }
+        };
+        canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED,actualDragEventHandler);
+ 
+        canvas.addEventHandler(MouseEvent.MOUSE_RELEASED,
+                new EventHandler<MouseEvent>(){
+ 
+            @Override
+            public void handle(MouseEvent event) {
+ 
+            }
+        });
+		
+	}
 	
-	
+	private void stopHandlers() {
+
+		try{
+			canvas.removeEventHandler(MouseEvent.MOUSE_DRAGGED, EditorController.actualDragEventHandler);
+		}catch(NullPointerException e){
+			System.out.println("No Drag-Event-Handler set!");
+		}
+		
+	}
+
 	private void initDraw(GraphicsContext gc){
         double canvasWidth = gc.getCanvas().getWidth();
         double canvasHeight = gc.getCanvas().getHeight();
@@ -118,6 +152,14 @@ public class EditorController implements Initializable,IMediator {
          
     }
 	
+	/*private void changeLineWidth(){
+		ComChangeLineWidth cmd = new ComChangeLineWidth(gc, slider.getValue(), old_val.doubleValue());
+		storeAndExecute(cmd);
+		gc = cmd.get_gc();
+	}*/
+	
+	//COMMANDS
+	
 	@FXML private void setLineColor(){
 		Paint color = colorPicker.getValue();
 		//System.out.println(gc.getStroke());
@@ -125,10 +167,74 @@ public class EditorController implements Initializable,IMediator {
 		storeAndExecute(cmd);      
 	}
 	
-	public void storeAndExecute(ICommand cmd) {//speichert die commands in eine history
-        this.history.push(cmd);
-        cmd.execute();      
-     }
+	//SHAPE-ICONS
+	
+	@FXML private void setRectangle(){
+		Paint color = colorPicker.getValue();
+		if(rectangle.getImage().equals(_rectangleShiny) == true){
+			rectangle.setImage(_rectangle);
+			stopPaintShape();
+		}else{
+			paintRectangle();//tells mediator that a shape is going to be paint
+			ComPaintRectangle cmd = new ComPaintRectangle(canvas,color,gc.getStroke());
+			storeAndExecute(cmd); 
+			rectangle.setImage(_rectangleShiny);
+		}
+		
+	}
+	@FXML private void setSquare(){
+		Paint color = colorPicker.getValue();
+		if(square.getImage().equals(_squareShiny) == true){
+			square.setImage(_square);
+			stopPaintShape();
+		}else{
+			paintSquare();//tells mediator that a shape is going to be paint
+			ComPaintSquare cmd = new ComPaintSquare(canvas,color,gc.getStroke());
+			storeAndExecute(cmd); 
+			square.setImage(_squareShiny);
+		}
+		
+	}
+	@FXML private void setElipse(){
+		Paint color = colorPicker.getValue();
+		if(elipse.getImage().equals(_elipseShiny) == true){
+			elipse.setImage(_elipse);
+			stopPaintShape();
+		}else{
+			paintElipse();//tells mediator that a shape is going to be paint
+			ComPaintElipse cmd = new ComPaintElipse(canvas,color,gc.getStroke());
+			storeAndExecute(cmd); 
+			elipse.setImage(_elipseShiny);
+		}
+		
+	}
+	@FXML private void setCircle(){
+		Paint color = colorPicker.getValue();
+		if(circle.getImage().equals(_circleShiny) == true){
+			circle.setImage(_circle);
+			stopPaintShape();
+		}else{
+			paintCircle();//tells mediator that a shape is going to be paint
+			ComPaintCircle cmd = new ComPaintCircle(canvas,color,gc.getStroke());
+			storeAndExecute(cmd); 
+			circle.setImage(_circleShiny);
+		}
+		
+	}
+	@FXML private void setTriangle(){
+		Paint color = colorPicker.getValue();
+		if(triangle.getImage().equals(_triangleShiny) == true){
+			triangle.setImage(_triangle);
+			stopPaintShape();
+		}else{
+			paintTriangle();//tells mediator that a shape is going to be paint
+			ComPaintTriangle cmd = new ComPaintTriangle(canvas,color,gc.getStroke());
+			storeAndExecute(cmd); 
+			triangle.setImage(_triangleShiny);
+		}
+		
+	}
+	
 	
 	@FXML
 	private void undo(ActionEvent event)
@@ -142,17 +248,75 @@ public class EditorController implements Initializable,IMediator {
 			System.out.println("There was no last Command executed!");
 		}
     }
+	
+	public void storeAndExecute(ICommand cmd) {//speichert die commands in eine history
+        this.history.push(cmd);
+        cmd.execute();      
+     }
 
 	@Override
-	public void paintShape() {
+	public void paintSquare() {
 		slider.disableProperty().setValue(true);
+		rectangle.disableProperty().setValue(true);
+		elipse.disableProperty().setValue(true);
+		circle.disableProperty().setValue(true);
+		triangle.disableProperty().setValue(true);
+		stopHandlers();
 		//all buttons disable that are not used if i type on some of the shape icons
 		
 	}
-	
-	
-	
-	
-	
+
+	@Override
+	public void paintRectangle() {
+		slider.disableProperty().setValue(true);
+		elipse.disableProperty().setValue(true);
+		circle.disableProperty().setValue(true);
+		triangle.disableProperty().setValue(true);
+		square.disableProperty().setValue(true);
+		stopHandlers();
+	}
+
+	@Override
+	public void paintTriangle() {
+		slider.disableProperty().setValue(true);
+		rectangle.disableProperty().setValue(true);
+		elipse.disableProperty().setValue(true);
+		circle.disableProperty().setValue(true);
+		square.disableProperty().setValue(true);
+		stopHandlers();
+	}
+
+	@Override
+	public void paintElipse() {
+		slider.disableProperty().setValue(true);
+		rectangle.disableProperty().setValue(true);
+		circle.disableProperty().setValue(true);
+		triangle.disableProperty().setValue(true);
+		square.disableProperty().setValue(true);
+		stopHandlers();
+	}
+
+	@Override
+	public void paintCircle() {
+		slider.disableProperty().setValue(true);
+		rectangle.disableProperty().setValue(true);
+		elipse.disableProperty().setValue(true);
+		triangle.disableProperty().setValue(true);
+		square.disableProperty().setValue(true);
+		stopHandlers();
+		
+	}
+
+	@Override
+	public void stopPaintShape() {
+		slider.disableProperty().setValue(false);
+		rectangle.disableProperty().setValue(false);
+		square.disableProperty().setValue(false);
+		elipse.disableProperty().setValue(false);
+		circle.disableProperty().setValue(false);
+		triangle.disableProperty().setValue(false);
+		stopHandlers();
+		setHandlers(canvas);
+	}
 	
 }

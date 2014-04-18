@@ -1,13 +1,14 @@
 package objects;
 
-import interfaces.IPrototyp;
+public class Square extends Rectangle {
 
-public class Square extends Rectangle implements IPrototyp {
+	public Square(){
+	    type = "Square";
+	}
 
 	@Override
-	public Object clone() {
-		
-		return super.clone();
+	public void draw() {
+	    System.out.println("Inside Square::draw() method.");
 	}
 
 }

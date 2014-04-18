@@ -23,7 +23,7 @@
       <items>
         <HBox alignment="CENTER_RIGHT" disable="false" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="16.0" prefHeight="41.0" prefWidth="623.0">
           <children>
-            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="square" fitHeight="35.0" fitWidth="35.0" onMousePressed="#setSquare" pickOnBounds="true" preserveRatio="true">
               <image>
                 <Image url="@../../bin/assets/viereck.png" />
               </image>
@@ -31,22 +31,22 @@
                 <Insets right="5.0" fx:id="x1" />
               </HBox.margin>
             </ImageView>
-            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" HBox.margin="$x1">
+            <ImageView fx:id="triangle" fitHeight="35.0" fitWidth="35.0" onMousePressed="#setTriangle" pickOnBounds="true" preserveRatio="true" HBox.margin="$x1">
               <image>
                 <Image url="@../../bin/assets/dreieck.png" />
               </image>
             </ImageView>
-            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" HBox.margin="$x1">
+            <ImageView fx:id="elipse" fitHeight="35.0" fitWidth="35.0" onMousePressed="#setElipse" pickOnBounds="true" preserveRatio="true" HBox.margin="$x1">
               <image>
                 <Image url="@../../bin/assets/elipse.png" />
               </image>
             </ImageView>
-            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" HBox.margin="$x1">
+            <ImageView fx:id="rectangle" fitHeight="35.0" fitWidth="35.0" onMousePressed="#setRectangle" pickOnBounds="true" preserveRatio="true" HBox.margin="$x1">
               <image>
                 <Image url="@../../bin/assets/rechteck.png" />
               </image>
             </ImageView>
-            <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="circle" fitHeight="35.0" fitWidth="35.0" onMousePressed="#setCircle" pickOnBounds="true" preserveRatio="true">
               <image>
                 <Image url="@../../bin/assets/kreis.png" />
               </image>

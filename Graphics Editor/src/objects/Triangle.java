@@ -1,18 +1,15 @@
 package objects;
 
-import interfaces.IPrototyp;
 
-public class Triangle implements IPrototyp {
+public class Triangle extends Shape {
+
+	public Triangle(){
+	    type = "Triangle";
+	}
 
 	@Override
-	public Object clone() {
-		
-		try {
-			return super.clone();
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
-		return null;
+	public void draw() {
+	    System.out.println("Inside Triangle::draw() method.");
 	}
 
 }

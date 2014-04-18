@@ -1,18 +1,53 @@
 package objects;
 
-import interfaces.IPrototyp;
 
-public class Rectangle implements IPrototyp{
+public class Rectangle extends Shape {
+	
+	double xCoord,yCoord,a,b;
+	
+	public Rectangle(){
+	    type = "Rectangle";
+	}
 
 	@Override
-	public Object clone() {
-		
-		try {
-			return super.clone();
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
-		return null;
+	public void draw() {
+	    System.out.println("Inside Rectangle::draw() method.");
+	    
+	}
+
+	
+	//Setters & Getters
+	
+	public double getxCoord() {
+		return xCoord;
+	}
+
+	public void setxCoord(double xCoord) {
+		this.xCoord = xCoord;
+	}
+
+	public double getyCoord() {
+		return yCoord;
+	}
+
+	public void setyCoord(double yCoord) {
+		this.yCoord = yCoord;
+	}
+
+	public double getA() {
+		return a;
+	}
+
+	public void setA(double a) {
+		this.a = a;
+	}
+
+	public double getB() {
+		return b;
+	}
+
+	public void setB(double b) {
+		this.b = b;
 	}
 
 }
