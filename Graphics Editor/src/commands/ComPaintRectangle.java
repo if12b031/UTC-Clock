@@ -1,6 +1,7 @@
 package commands;
 
 import main.EditorController;
+import objects.ObjectList;
 import objects.Rectangle;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
@@ -14,7 +15,7 @@ public class ComPaintRectangle implements ICommand {
 	Canvas _canvas;
 	GraphicsContext _gc;
 	Paint _color,_colorOld;
-	Rectangle rectangle = new Rectangle();
+	Rectangle rectangle;
 
 	public ComPaintRectangle(Canvas canvas, Paint color, Paint colorOld) {
 		_canvas = canvas;
@@ -32,8 +33,8 @@ public class ComPaintRectangle implements ICommand {
  
             @Override
             public void handle(MouseEvent event) {
-            	System.out.println("Mouse pressed");
             	//Rectangle rectangle = new Rectangle();
+            	rectangle = (Rectangle) ObjectList.createShape("Rectangle");//klone ein rechteck!
             	rectangle.setxCoord(event.getX());
             	rectangle.setyCoord(event.getY());
                 //_gc.beginPath();
@@ -45,13 +46,10 @@ public class ComPaintRectangle implements ICommand {
         });
 		
 		_canvas.removeEventHandler(MouseEvent.MOUSE_DRAGGED, EditorController.actualDragEventHandler);
-         
-        
+
 		EditorController.actualDragEventHandler =   new EventHandler<MouseEvent>(){
- 
             @Override
             public void handle(MouseEvent event) {
-            	
             	_gc.rect(rectangle.getxCoord(), rectangle.getyCoord(),
                 		event.getX() - rectangle.getxCoord()
                 		,event.getY() - rectangle.getyCoord());
@@ -59,16 +57,12 @@ public class ComPaintRectangle implements ICommand {
             }
         };
         _canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED,EditorController.actualDragEventHandler);
-        
-        
- 
         _canvas.addEventHandler(MouseEvent.MOUSE_RELEASED,
                 new EventHandler<MouseEvent>(){
- 
             @Override
             public void handle(MouseEvent event) {
-            	System.out.println("Mouse released");
- 
+            	//on Click markier es
+            	ObjectList.add(rectangle);
             }
         });
 	}

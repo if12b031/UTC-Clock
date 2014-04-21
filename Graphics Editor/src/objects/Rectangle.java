@@ -1,7 +1,7 @@
 package objects;
 
 
-public class Rectangle extends Shape {
+public class Rectangle extends Shape implements Cloneable {
 	
 	double xCoord,yCoord,a,b;
 	

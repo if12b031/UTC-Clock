@@ -4,7 +4,11 @@ import objects.Shape;
 import java.util.List;
 import java.util.ArrayList;
 	
-	class CompositeGraphic extends Shape {
+	public class CompositeGraphic extends Shape {
+		
+		public CompositeGraphic(){
+		    type = "CompositeGraphic";
+		}
 	 
 	    //Collection of child graphics.
 	    private List<Shape> childGraphics = new ArrayList<Shape>();

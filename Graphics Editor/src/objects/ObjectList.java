@@ -4,7 +4,7 @@ import java.util.Hashtable;
 
 public class ObjectList {
 	
-	public static final int MAX_DIFF_SHAPES = 5;//different shapes (circle,rectangle....)
+	public static final int MAX_DIFF_SHAPES = 6;//different shapes (circle,rectangle....)
 	
 	private static Hashtable<Integer, Shape> shapeMap  = new Hashtable<Integer, Shape>();
 
@@ -20,30 +20,31 @@ public class ObjectList {
 		shapeMap.put(2, new Ellipse());
 		shapeMap.put(3, new Circle());
 		shapeMap.put(4, new Triangle());
-		
+		shapeMap.put(5, new CompositeGraphic());
 	}
 	
 	
 	
 	public static Shape createShape(String type) {//klont die form die geklont werden soll(param)
-		
-		if(shapeMap.isEmpty() == true){
+		if(shapeMap.size() == 0){
 			initializeShapes();
+			System.out.println("init Shapes");
 		}
 		
-		for(int i = 0;i >= MAX_DIFF_SHAPES; i++){
+		for(int i = 0;i <= MAX_DIFF_SHAPES; i++){
 			if(shapeMap.get(i).getType().equals(type)){
+				System.out.println("ShapeNumber(Rec 0;Square 1; Elipse 2; Circle 3; Triangle 4;) = "+ i );
 				Shape clonedShape = (Shape) shapeMap.get(i).klone();
-				add(clonedShape);
 				return clonedShape;
 			}
 		}
 		return null;
 	}
 	
-	private static void add(Shape shape){
+	public static void add(Shape shape){
 		shape.setId(shapeMap.size());
 	    shapeMap.put(shape.getId(),shape);
+	    System.out.println("current Shapes = " + (shapeMap.size()-MAX_DIFF_SHAPES));
 	    return;
 	}
 	
