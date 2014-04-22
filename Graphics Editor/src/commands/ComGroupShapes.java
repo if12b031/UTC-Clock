@@ -20,13 +20,17 @@ public class ComGroupShapes implements ICommand {
 	public void execute() {
 		
 		compositum = (CompositeGraphic) ObjectList.createShape("CompositeGraphic");//klone ein rechteck!
-		
+		for (Shape s : _shapesToGroup){//for each construct
+			compositum.add(s);
+		}
 	}
 
 	@Override
 	public void undo() {
-		// TODO Auto-generated method stub
 		
+		for (Shape s : _shapesToGroup){//for each construct
+			compositum.remove(s);
+		}
 	}
 	
 	

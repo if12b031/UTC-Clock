@@ -1,5 +1,8 @@
 package commands;
 
+import main.EditorController;
+import objects.Ellipse;
+import objects.ObjectList;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -12,6 +15,7 @@ public class ComPaintElipse implements ICommand {
 	Canvas _canvas;
 	GraphicsContext _gc;
 	Paint _color,_colorOld;
+	Ellipse elipse;
 
 	public ComPaintElipse(Canvas canvas, Paint color, Paint colorOld) {
 		_canvas = canvas;
@@ -23,37 +27,7 @@ public class ComPaintElipse implements ICommand {
 	@Override
 	public void execute() {
 		_gc.setStroke(_color);
-		_canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,
-                new EventHandler<MouseEvent>(){
- 
-            @Override
-            public void handle(MouseEvent event) {
-                _gc.beginPath();
-                event.getX();
-                event.getY();
-                _gc.moveTo(event.getX(), event.getY());
-                _gc.stroke();
-            }
-        });
-         
-        _canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED,
-                new EventHandler<MouseEvent>(){
- 
-            @Override
-            public void handle(MouseEvent event) {
-                _gc.lineTo(event.getX(), event.getY());
-                //_gc.rect(event.getX(), event.getY(), 50, 50);
-            }
-        });
- 
-        _canvas.addEventHandler(MouseEvent.MOUSE_RELEASED,
-                new EventHandler<MouseEvent>(){
- 
-            @Override
-            public void handle(MouseEvent event) {
- 
-            }
-        });
+		setUpEventHandler();
 	}
 
 	
@@ -61,6 +35,15 @@ public class ComPaintElipse implements ICommand {
 	@Override
 	public void undo() {
 		_gc.setStroke(_colorOld);
+		removeEventHandler();
+	}
+	
+	
+	//EVENTHANDLER-Management
+	
+	
+	private void removeEventHandler() {
+		
 		_canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>(){
  
@@ -91,6 +74,49 @@ public class ComPaintElipse implements ICommand {
             }
         });
 	}
+
+	private void setUpEventHandler(){
+		//_canvas.removeEventHandler(eventType, eventHandler);
+		EditorController.actualPressEventHandler =
+		                new EventHandler<MouseEvent>(){
+		 
+		            @Override
+		            public void handle(MouseEvent event) {
+		            	//Rectangle elipse = new Rectangle();
+		            	elipse = (Ellipse) ObjectList.createShape("Elipse");//klone eine Elipse!
+		            	elipse.setxCoord(event.getX());
+		            	elipse.setyCoord(event.getY());
+		                //_gc.beginPath();
+		                //_gc.moveTo(event.getX(), event.getY());
+		            	_gc.strokeOval(elipse.getxCoord(), elipse.getyCoord(),
+		                		event.getX() - elipse.getxCoord()
+		                		,event.getY() - elipse.getyCoord());
+		            }
+		        };
+		        _canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,EditorController.actualPressEventHandler);
+
+				EditorController.actualDragEventHandler =   new EventHandler<MouseEvent>(){
+		            @Override
+		            public void handle(MouseEvent event) {
+		            	_gc.strokeOval(elipse.getxCoord(), elipse.getyCoord(),
+		                		event.getX() - elipse.getxCoord()
+		                		,event.getY() - elipse.getyCoord());
+		            	_gc.stroke();
+		            }
+		        };
+		        _canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED,EditorController.actualDragEventHandler);
+		        
+		        EditorController.actualReleaseEventHandler = 
+		                new EventHandler<MouseEvent>(){
+		            @Override
+		            public void handle(MouseEvent event) {
+		            	//on Click markier es
+		            	ObjectList.add(elipse);
+		            }
+		        };
+		        _canvas.addEventHandler(MouseEvent.MOUSE_RELEASED,EditorController.actualReleaseEventHandler);
+	}
+	
 	//GETTERS
 	public GraphicsContext get_gc() {
 		return _gc;

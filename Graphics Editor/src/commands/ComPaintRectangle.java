@@ -27,44 +27,7 @@ public class ComPaintRectangle implements ICommand {
 	@Override
 	public void execute() {
 		_gc.setStroke(_color);
-		//_canvas.removeEventHandler(eventType, eventHandler);
-		_canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,
-                new EventHandler<MouseEvent>(){
- 
-            @Override
-            public void handle(MouseEvent event) {
-            	//Rectangle rectangle = new Rectangle();
-            	rectangle = (Rectangle) ObjectList.createShape("Rectangle");//klone ein rechteck!
-            	rectangle.setxCoord(event.getX());
-            	rectangle.setyCoord(event.getY());
-                //_gc.beginPath();
-                //_gc.moveTo(event.getX(), event.getY());
-            	_gc.rect(rectangle.getxCoord(), rectangle.getyCoord(),
-                		event.getX() - rectangle.getxCoord()
-                		,event.getY() - rectangle.getyCoord());
-            }
-        });
-		
-		_canvas.removeEventHandler(MouseEvent.MOUSE_DRAGGED, EditorController.actualDragEventHandler);
-
-		EditorController.actualDragEventHandler =   new EventHandler<MouseEvent>(){
-            @Override
-            public void handle(MouseEvent event) {
-            	_gc.rect(rectangle.getxCoord(), rectangle.getyCoord(),
-                		event.getX() - rectangle.getxCoord()
-                		,event.getY() - rectangle.getyCoord());
-            	_gc.stroke();
-            }
-        };
-        _canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED,EditorController.actualDragEventHandler);
-        _canvas.addEventHandler(MouseEvent.MOUSE_RELEASED,
-                new EventHandler<MouseEvent>(){
-            @Override
-            public void handle(MouseEvent event) {
-            	//on Click markier es
-            	ObjectList.add(rectangle);
-            }
-        });
+		setUpEventHandler();
 	}
 
 	
@@ -72,6 +35,15 @@ public class ComPaintRectangle implements ICommand {
 	@Override
 	public void undo() {
 		_gc.setStroke(_colorOld);
+		removeEventHandler();
+	}
+	
+	
+	//EVENTHANDLER-Management
+	
+	
+	private void removeEventHandler() {
+		
 		_canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,
                 new EventHandler<MouseEvent>(){
  
@@ -102,6 +74,48 @@ public class ComPaintRectangle implements ICommand {
             }
         });
 	}
+
+	private void setUpEventHandler(){
+		//_canvas.removeEventHandler(eventType, eventHandler);		
+				EditorController.actualPressEventHandler =  new EventHandler<MouseEvent>(){
+		 
+		            @Override
+		            public void handle(MouseEvent event) {
+		            	//Rectangle rectangle = new Rectangle();
+		            	rectangle = (Rectangle) ObjectList.createShape("Rectangle");//klone ein rechteck!
+		            	rectangle.setxCoord(event.getX());
+		            	rectangle.setyCoord(event.getY());
+		                //_gc.beginPath();
+		                //_gc.moveTo(event.getX(), event.getY());
+		            	_gc.rect(rectangle.getxCoord(), rectangle.getyCoord(),
+		                		event.getX() - rectangle.getxCoord()
+		                		,event.getY() - rectangle.getyCoord());
+		            }
+		        };
+		        _canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,EditorController.actualPressEventHandler);
+
+				EditorController.actualDragEventHandler =   new EventHandler<MouseEvent>(){
+		            @Override
+		            public void handle(MouseEvent event) {
+		            	_gc.rect(rectangle.getxCoord(), rectangle.getyCoord(),
+		                		event.getX() - rectangle.getxCoord()
+		                		,event.getY() - rectangle.getyCoord());
+		            	_gc.stroke();
+		            }
+		        };
+		        _canvas.addEventHandler(MouseEvent.MOUSE_DRAGGED,EditorController.actualDragEventHandler);
+		        
+		        EditorController.actualReleaseEventHandler =
+		                new EventHandler<MouseEvent>(){
+		            @Override
+		            public void handle(MouseEvent event) {
+		            	//on Click markier es
+		            	ObjectList.add(rectangle);
+		            }
+		        };
+		        _canvas.addEventHandler(MouseEvent.MOUSE_RELEASED,EditorController.actualReleaseEventHandler);
+	}
+	
 	//GETTERS
 	public GraphicsContext get_gc() {
 		return _gc;

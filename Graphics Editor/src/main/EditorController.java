@@ -4,11 +4,15 @@ import interfaces.ICommand;
 import interfaces.IMediator;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
 import java.util.Stack;
 
+import objects.Shape;
 import commands.ComChangeLineWidth;
+import commands.ComGroupShapes;
 import commands.ComPaintCircle;
 import commands.ComPaintElipse;
 import commands.ComPaintRectangle;
@@ -54,13 +58,14 @@ public class EditorController implements Initializable,IMediator {
 	Image _circleShiny = new Image("assets/kreis_marked.png",true);
 	Image _circle = new Image("assets/kreis.png",true);
 	
-	public static EventHandler<MouseEvent> actualDragEventHandler;
+	public static EventHandler<MouseEvent> actualDragEventHandler,actualPressEventHandler,actualReleaseEventHandler;
 	
 	private GraphicsContext gc;
 	private Canvas canvas;
 	
 	private Stack<ICommand> history = new Stack<ICommand>();
 	private Stack<ICommand> undoHistory = new Stack<ICommand>();
+	private List<Shape> shapesToGroup = new ArrayList<Shape>();
 	
 
 	@Override
@@ -72,6 +77,8 @@ public class EditorController implements Initializable,IMediator {
         colorPicker.setValue(Color.BLACK);
         this.gc = gc;
         this.canvas = canvas;
+        
+       
         
         slider.valueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> ov,
@@ -125,8 +132,11 @@ public class EditorController implements Initializable,IMediator {
 
 		try{
 			canvas.removeEventHandler(MouseEvent.MOUSE_DRAGGED, EditorController.actualDragEventHandler);
+			canvas.removeEventHandler(MouseEvent.MOUSE_PRESSED, EditorController.actualPressEventHandler);
+			canvas.removeEventHandler(MouseEvent.MOUSE_RELEASED, EditorController.actualReleaseEventHandler);
+			
 		}catch(NullPointerException e){
-			System.out.println("No Drag-Event-Handler set!");
+			System.out.println("No Press- Drag- or Release-Event-Handler set!");
 		}
 		
 	}
@@ -235,10 +245,19 @@ public class EditorController implements Initializable,IMediator {
 		
 	}
 	
+	@FXML
+	private void group(ActionEvent event){
+		
+		ICommand groupCommand = new ComGroupShapes(shapesToGroup);
+		storeAndExecute(groupCommand);
+		System.out.println("GROUP-Button pressed");
+	}
+	
+	
 	
 	@FXML
-	private void undo(ActionEvent event)
-    {
+	private void undo(ActionEvent event){
+		
 		try{ICommand undoCommand = history.lastElement();
 		undoCommand.undo();
 		undoHistory.push(undoCommand);

@@ -80,6 +80,14 @@
         </HBox>
       </items>
     </ToolBar>
+    <Button fx:id="group" onAction="#group" mnemonicParsing="false" prefHeight="31.0" prefWidth="83.0" text="Group" textAlignment="CENTER" textFill="BLACK" wrapText="false" GridPane.columnIndex="0" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+      <font>
+        <Font name="System Bold" size="16.0" />
+      </font>
+      <GridPane.margin>
+        <Insets bottom="10.0" />
+      </GridPane.margin>
+    </Button>
   </children>
   <columnConstraints>
     <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="SOMETIMES" maxWidth="155.0" minWidth="5.0" prefWidth="39.0" />
