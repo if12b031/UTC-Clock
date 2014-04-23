@@ -38,7 +38,6 @@ public class MyRectangle extends Rectangle implements IShape,Drawable,Cloneable 
 		System.out.println("Drawing a Rectangle");
 	    //this.relocate(xCoord, yCoord);
 		pane.getChildren().add(this);
-		
 	}
 	
 	@Override

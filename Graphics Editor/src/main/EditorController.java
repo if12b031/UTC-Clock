@@ -126,8 +126,7 @@ public class EditorController implements Initializable,IMediator {
             public void handle(MouseEvent event) {
  
             }
-        });
-		
+        });		
 	}
 	
 	private void stopHandlers() {
@@ -195,6 +194,7 @@ public class EditorController implements Initializable,IMediator {
 		}
 		
 	}
+	
 	@FXML private void setSquare(){
 		Paint color = colorPicker.getValue();
 		if(square.getImage().equals(_squareShiny) == true){
@@ -205,9 +205,9 @@ public class EditorController implements Initializable,IMediator {
 			ComPaintSquare cmd = new ComPaintSquare(pane,color,gc.getStroke());
 			storeAndExecute(cmd); 
 			square.setImage(_squareShiny);
-		}
-		
+		}		
 	}
+	
 	@FXML private void setElipse(){
 		Paint color = colorPicker.getValue();
 		if(elipse.getImage().equals(_elipseShiny) == true){
@@ -215,12 +215,12 @@ public class EditorController implements Initializable,IMediator {
 			stopPaintShape();
 		}else{
 			paintElipse();//tells mediator that a shape is going to be paint
-			ComPaintElipse cmd = new ComPaintElipse(canvas,color,gc.getStroke());
+			ComPaintElipse cmd = new ComPaintElipse(pane, canvas,color,gc.getStroke());
 			storeAndExecute(cmd); 
 			elipse.setImage(_elipseShiny);
-		}
-		
+		}		
 	}
+	
 	@FXML private void setCircle(){
 		Paint color = colorPicker.getValue();
 		if(circle.getImage().equals(_circleShiny) == true){
@@ -228,12 +228,12 @@ public class EditorController implements Initializable,IMediator {
 			stopPaintShape();
 		}else{
 			paintCircle();//tells mediator that a shape is going to be paint
-			ComPaintCircle cmd = new ComPaintCircle(canvas,color,gc.getStroke());
+			ComPaintCircle cmd = new ComPaintCircle(pane, canvas,color,gc.getStroke());
 			storeAndExecute(cmd); 
 			circle.setImage(_circleShiny);
-		}
-		
+		}		
 	}
+	
 	@FXML private void setTriangle(){
 		Paint color = colorPicker.getValue();
 		if(triangle.getImage().equals(_triangleShiny) == true){
@@ -244,8 +244,7 @@ public class EditorController implements Initializable,IMediator {
 			ComPaintTriangle cmd = new ComPaintTriangle(pane,color,gc.getStroke());
 			storeAndExecute(cmd); 
 			triangle.setImage(_triangleShiny);
-		}
-		
+		}		
 	}
 	
 	@FXML
@@ -264,7 +263,6 @@ public class EditorController implements Initializable,IMediator {
 		} else {
 			System.out.println("There was no last Command executed!");
 		}
-
     }
 	
 	public void storeAndExecute(ICommand cmd) {//speichert die commands in eine history

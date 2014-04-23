@@ -37,6 +37,7 @@ public class ComPaintRectangle implements ICommand {
 	@Override
 	public void undo() {
 		removeEventHandler();
+		_pane.getChildren().remove(rectangle);
 	}
 	
 	
@@ -107,8 +108,7 @@ public class ComPaintRectangle implements ICommand {
 		            	}
 		            	if(rectangle.getxCoord() < event.getX()){
 		            		rectangle.setxCoord(event.getX());
-		            	}
-		            	
+		            	}         	
 		            	
 						_gc.setFill(_white);
 		            	_gc.fillRect(rectangle.getX(), rectangle.getY(),
@@ -127,6 +127,7 @@ public class ComPaintRectangle implements ICommand {
 		            @Override
 		            public void handle(MouseEvent event) {
 		            	//on Click markier es
+		            	_pane.getChildren().remove(rectangle);
 		            	rectangle.setWidth(event.getX() - rectangle.getX());
 		            	rectangle.setHeight(event.getY() - rectangle.getY());
 		            	rectangle.setFill(_color);

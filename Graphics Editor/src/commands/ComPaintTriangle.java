@@ -41,8 +41,8 @@ public class ComPaintTriangle implements ICommand {
 
 	@Override
 	public void undo() {
-		_gc.setStroke(_colorOld);
 		removeEventHandler();
+		_pane.getChildren().remove(triangle);
 	}
 	
 	

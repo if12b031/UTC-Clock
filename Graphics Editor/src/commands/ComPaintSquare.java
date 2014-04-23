@@ -33,14 +33,12 @@ public class ComPaintSquare implements ICommand {
 	public void execute() {
 		_gc.setStroke(_color);
 		setUpEventHandler();
-	}
-
-	
+	}	
 
 	@Override
 	public void undo() {
-		_gc.setStroke(_colorOld);
 		removeEventHandler();
+		_pane.getChildren().remove(square);
 	}
 	
 	
@@ -167,6 +165,7 @@ public class ComPaintSquare implements ICommand {
 		            @Override
 		            public void handle(MouseEvent event) {
 		            	//on Click markier es
+		            	_pane.getChildren().remove(square);
 		            	square.setWidth(w);
 		            	square.setHeight(h);
 		            	square.setFill(_color);

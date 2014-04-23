@@ -7,18 +7,21 @@ import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Paint;
 import interfaces.ICommand;
 
 public class ComPaintCircle implements ICommand {
 	
+	Pane _pane;
 	Canvas _canvas;
 	GraphicsContext _gc;
 	Paint _color,_colorOld;
 	MyCircle circle;
 	double max,min,w,h;
 
-	public ComPaintCircle(Canvas canvas, Paint color, Paint colorOld) {
+	public ComPaintCircle(Pane pane, Canvas canvas, Paint color, Paint colorOld) {
+		_pane = pane;
 		_canvas = canvas;
 		_color = color;
 		_colorOld = colorOld;
@@ -35,8 +38,8 @@ public class ComPaintCircle implements ICommand {
 
 	@Override
 	public void undo() {
-		_gc.setStroke(_colorOld);
 		removeEventHandler();
+		_pane.getChildren().remove(circle);
 	}
 	
 	
