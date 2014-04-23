@@ -3,16 +3,16 @@ package commands;
 import java.util.List;
 
 import interfaces.ICommand;
+import interfaces.IShape;
 import objects.ObjectList;
-import objects.Shape;
 import objects.CompositeGraphic;
 
 public class ComGroupShapes implements ICommand {
 	
-	List<Shape> _shapesToGroup;
+	List<IShape> _shapesToGroup;
 	CompositeGraphic compositum;
 	
-	public ComGroupShapes(List<Shape> shapesToGroup){
+	public ComGroupShapes(List<IShape> shapesToGroup){
 		_shapesToGroup = shapesToGroup;
 	}
 	
@@ -20,16 +20,16 @@ public class ComGroupShapes implements ICommand {
 	public void execute() {
 		
 		compositum = (CompositeGraphic) ObjectList.createShape("CompositeGraphic");//klone ein rechteck!
-		for (Shape s : _shapesToGroup){//for each construct
-			compositum.add(s);
+		for (IShape s : _shapesToGroup){//for each construct
+			compositum.add((javafx.scene.shape.Shape) s);
 		}
 	}
 
 	@Override
 	public void undo() {
 		
-		for (Shape s : _shapesToGroup){//for each construct
-			compositum.remove(s);
+		for (IShape s : _shapesToGroup){//for each construct
+			compositum.remove((javafx.scene.shape.Shape) s);
 		}
 	}
 	

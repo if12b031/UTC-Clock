@@ -2,6 +2,7 @@ package main;
 
 import interfaces.ICommand;
 import interfaces.IMediator;
+import interfaces.IShape;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -10,7 +11,6 @@ import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
 import java.util.Stack;
 
-import objects.Shape;
 import commands.ComChangeLineWidth;
 import commands.ComGroupShapes;
 import commands.ComPaintCircle;
@@ -33,6 +33,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
@@ -62,15 +63,17 @@ public class EditorController implements Initializable,IMediator {
 	
 	private GraphicsContext gc;
 	private Canvas canvas;
+	private Pane pane;
 	
 	private Stack<ICommand> history = new Stack<ICommand>();
 	private Stack<ICommand> undoHistory = new Stack<ICommand>();
-	private List<Shape> shapesToGroup = new ArrayList<Shape>();
+	private List<IShape> shapesToGroup = new ArrayList<IShape>();
 	
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		Canvas canvas = new Canvas(400, 300);
+		Pane pane = new Pane();//füge dem gridpane diese pane hinzu und adde das canvas element in dieses pane
 		final GraphicsContext gc = canvas.getGraphicsContext2D();
 		initDraw(gc);
 		setHandlers(canvas); 
@@ -90,8 +93,10 @@ public class EditorController implements Initializable,IMediator {
             }
         });
         
-       
-        grid.add(canvas, 1, 1);
+       pane.getChildren().add(canvas);
+       System.out.println("canvas id im pane.getChildren = "+pane.getChildren().indexOf(canvas));
+       this.pane = pane;
+        grid.add(pane, 1, 1);
 	}
 	
 	private void setHandlers(Canvas canvas) {
@@ -186,7 +191,7 @@ public class EditorController implements Initializable,IMediator {
 			stopPaintShape();
 		}else{
 			paintRectangle();//tells mediator that a shape is going to be paint
-			ComPaintRectangle cmd = new ComPaintRectangle(canvas,color,gc.getStroke());
+			ComPaintRectangle cmd = new ComPaintRectangle(pane,color,gc.getStroke());
 			storeAndExecute(cmd); 
 			rectangle.setImage(_rectangleShiny);
 		}
@@ -199,7 +204,7 @@ public class EditorController implements Initializable,IMediator {
 			stopPaintShape();
 		}else{
 			paintSquare();//tells mediator that a shape is going to be paint
-			ComPaintSquare cmd = new ComPaintSquare(canvas,color,gc.getStroke());
+			ComPaintSquare cmd = new ComPaintSquare(pane,color,gc.getStroke());
 			storeAndExecute(cmd); 
 			square.setImage(_squareShiny);
 		}
@@ -238,7 +243,7 @@ public class EditorController implements Initializable,IMediator {
 			stopPaintShape();
 		}else{
 			paintTriangle();//tells mediator that a shape is going to be paint
-			ComPaintTriangle cmd = new ComPaintTriangle(canvas,color,gc.getStroke());
+			ComPaintTriangle cmd = new ComPaintTriangle(pane,color,gc.getStroke());
 			storeAndExecute(cmd); 
 			triangle.setImage(_triangleShiny);
 		}

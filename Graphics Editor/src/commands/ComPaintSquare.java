@@ -2,11 +2,13 @@ package commands;
 
 import main.EditorController;
 import objects.ObjectList;
-import objects.Square;
+import objects.MySquare;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import interfaces.ICommand;
 
@@ -14,15 +16,17 @@ public class ComPaintSquare implements ICommand {
 	
 	Canvas _canvas;
 	GraphicsContext _gc;
-	Paint _color,_colorOld;
-	Square square;
+	Paint _color,_colorOld,_white = new Color(1, 1, 1, 1);
+	MySquare square;
+	Pane _pane;
 	double max,min,w,h;
 
-	public ComPaintSquare(Canvas canvas, Paint color, Paint colorOld) {
-		_canvas = canvas;
+	public ComPaintSquare(Pane pane, Paint color, Paint colorOld) {
+		_canvas = (Canvas) pane.getChildren().get(0);
 		_color = color;
 		_colorOld = colorOld;
-		_gc = canvas.getGraphicsContext2D();
+		_gc = _canvas.getGraphicsContext2D();
+		_pane = pane;
 	}
 
 	@Override
@@ -84,14 +88,16 @@ public class ComPaintSquare implements ICommand {
 		            @Override
 		            public void handle(MouseEvent event) {
 		            	//Rectangle square = new Rectangle();
-		            	square = (Square) ObjectList.createShape("Square");//klone ein quadrat!
+		            	square = (MySquare) ObjectList.createShape("Square");//klone ein quadrat!
+		            	square.setX(event.getX());
+		            	square.setY(event.getY());
+		            	square.setyCoord(event.getY());//for remember the biggest x or y coordinate to delete
 		            	square.setxCoord(event.getX());
-		            	square.setyCoord(event.getY());
 		                //_gc.beginPath();
 		                //_gc.moveTo(event.getX(), event.getY());
 		            	//x und y koordinate linke obere ecke , width,height
-		            	w = event.getX() - square.getxCoord();
-		            	h = event.getY() - square.getyCoord();
+		            	w = event.getX() - square.getX();
+		            	h = event.getY() - square.getY();
 		            	max = Math.max(Math.abs(w),Math.abs(h));
 		            	if(max == Math.abs(w)){
 		            		if(h < 0){
@@ -107,7 +113,7 @@ public class ComPaintSquare implements ICommand {
 		            		}
 		            		
 		            	}
-		            	_gc.rect(square.getxCoord(), square.getyCoord(),
+		            	_gc.fillRect(square.getX(), square.getY(),
 		                		w
 		                		,h);
 		            }
@@ -118,9 +124,16 @@ public class ComPaintSquare implements ICommand {
 				EditorController.actualDragEventHandler =   new EventHandler<MouseEvent>(){
 		            @Override
 		            public void handle(MouseEvent event) {
-		            	//System.out.println(Math.abs(event.getX() - square.getxCoord()));
-		            	w = event.getX() - square.getxCoord();
-		            	h = event.getY() - square.getyCoord();
+		            	//System.out.println(Math.abs(event.getX() - square.getX()));
+		            	if(square.getyCoord() < event.getY()){
+		            		square.setyCoord(event.getY());
+		            		
+		            	}
+		            	if(square.getxCoord() < event.getX()){
+		            		square.setxCoord(event.getX());
+		            	}
+		            	w = event.getX() - square.getX();
+		            	h = event.getY() - square.getY();
 		            	max = Math.max(Math.abs(w),Math.abs(h));
 		            	if(max == Math.abs(w)){
 		            		if(h < 0){
@@ -136,7 +149,12 @@ public class ComPaintSquare implements ICommand {
 		            		}
 		            		
 		            	}
-		            	_gc.rect(square.getxCoord(), square.getyCoord(),
+		            	_gc.setFill(_white);
+		            	_gc.fillRect(square.getX(), square.getY(),
+		            			square.getxCoord() - square.getX()
+		                		,square.getyCoord() - square.getY());
+		            	_gc.setFill(_color);
+		            	_gc.fillRect(square.getX(), square.getY(),
 		                		w
 		                		,h);
 		            	_gc.stroke();
@@ -149,6 +167,12 @@ public class ComPaintSquare implements ICommand {
 		            @Override
 		            public void handle(MouseEvent event) {
 		            	//on Click markier es
+		            	square.setWidth(w);
+		            	square.setHeight(h);
+		            	square.setFill(_color);
+	            		square.draw(_pane);//draw defined square and add it as child to pane
+		            	square.setHandler();
+	            		_gc.clearRect(square.getX(), square.getY(), square.getWidth(), square.getWidth());
 		            	ObjectList.add(square);
 		            }
 		        };
