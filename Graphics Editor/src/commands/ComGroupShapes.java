@@ -2,9 +2,9 @@ package commands;
 
 import java.util.List;
 
+import javafx.scene.shape.Shape;
 import interfaces.ICommand;
 import objects.ObjectList;
-import objects.Shape;
 import objects.CompositeGraphic;
 
 public class ComGroupShapes implements ICommand {
@@ -21,7 +21,7 @@ public class ComGroupShapes implements ICommand {
 		
 		compositum = (CompositeGraphic) ObjectList.createShape("CompositeGraphic");//klone ein rechteck!
 		for (Shape s : _shapesToGroup){//for each construct
-			compositum.add(s);
+			compositum.add((javafx.scene.shape.Shape) s);
 		}
 	}
 
@@ -29,7 +29,7 @@ public class ComGroupShapes implements ICommand {
 	public void undo() {
 		
 		for (Shape s : _shapesToGroup){//for each construct
-			compositum.remove(s);
+			compositum.remove((javafx.scene.shape.Shape) s);
 		}
 	}
 	

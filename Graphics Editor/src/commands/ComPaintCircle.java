@@ -1,7 +1,7 @@
 package commands;
 
 import main.EditorController;
-import objects.Circle;
+import objects.MyCircle;
 import objects.ObjectList;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
@@ -15,7 +15,7 @@ public class ComPaintCircle implements ICommand {
 	Canvas _canvas;
 	GraphicsContext _gc;
 	Paint _color,_colorOld;
-	Circle circle;
+	MyCircle circle;
 	double max,min,w,h;
 
 	public ComPaintCircle(Canvas canvas, Paint color, Paint colorOld) {
@@ -84,14 +84,14 @@ public class ComPaintCircle implements ICommand {
 		            @Override
 		            public void handle(MouseEvent event) {
 		            	//Rectangle circle = new Rectangle();
-		            	circle = (Circle) ObjectList.createShape("Circle");//klone ein quadrat!
-		            	circle.setxCoord(event.getX());
-		            	circle.setyCoord(event.getY());
+		            	circle = (MyCircle) ObjectList.createShape("Circle");//klone ein quadrat!
+		            	circle.setCenterX(event.getX());
+		            	circle.setCenterY(event.getY());
 		                //_gc.beginPath();
-		                //_gc.moveTo(event.getX(), event.getY());
+		                //_gc.moveTo(event.getCenterX(), event.getCenterY());
 		            	//x und y koordinate linke obere ecke , width,height
-		            	w = event.getX() - circle.getxCoord();
-		            	h = event.getY() - circle.getyCoord();
+		            	w = event.getX() - circle.getCenterX();
+		            	h = event.getY() - circle.getCenterY();
 		            	max = Math.max(Math.abs(w),Math.abs(h));
 		            	if(max == Math.abs(w)){
 		            		if(h < 0){
@@ -107,7 +107,7 @@ public class ComPaintCircle implements ICommand {
 		            		}
 		            		
 		            	}
-		            	_gc.fillOval(circle.getxCoord(), circle.getyCoord(),
+		            	_gc.fillOval(circle.getCenterX(), circle.getCenterY(),
 		                		w
 		                		,h);
 		            }
@@ -118,9 +118,9 @@ public class ComPaintCircle implements ICommand {
 		        EditorController.actualDragEventHandler =   new EventHandler<MouseEvent>(){
 		            @Override
 		            public void handle(MouseEvent event) {
-		            	//System.out.println(Math.abs(event.getX() - circle.getxCoord()));
-		            	w = event.getX() - circle.getxCoord();
-		            	h = event.getY() - circle.getyCoord();
+		            	//System.out.println(Math.abs(event.getCenterX() - circle.getCenterX()));
+		            	w = event.getX() - circle.getCenterX();
+		            	h = event.getY() - circle.getCenterY();
 		            	max = Math.max(Math.abs(w),Math.abs(h));
 		            	if(max == Math.abs(w)){
 		            		if(h < 0){
@@ -136,7 +136,7 @@ public class ComPaintCircle implements ICommand {
 		            		}
 		            		
 		            	}
-		            	_gc.fillOval(circle.getxCoord(), circle.getyCoord(),
+		            	_gc.fillOval(circle.getCenterX(), circle.getCenterY(),
 		                		w
 		                		,h);
 		            	_gc.stroke();

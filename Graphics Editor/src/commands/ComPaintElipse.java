@@ -1,7 +1,7 @@
 package commands;
 
 import main.EditorController;
-import objects.Ellipse;
+import objects.MyEllipse;
 import objects.ObjectList;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
@@ -15,7 +15,7 @@ public class ComPaintElipse implements ICommand {
 	Canvas _canvas;
 	GraphicsContext _gc;
 	Paint _color,_colorOld;
-	Ellipse elipse;
+	MyEllipse elipse;
 
 	public ComPaintElipse(Canvas canvas, Paint color, Paint colorOld) {
 		_canvas = canvas;
@@ -83,14 +83,14 @@ public class ComPaintElipse implements ICommand {
 		            @Override
 		            public void handle(MouseEvent event) {
 		            	//Rectangle elipse = new Rectangle();
-		            	elipse = (Ellipse) ObjectList.createShape("Elipse");//klone eine Elipse!
-		            	elipse.setxCoord(event.getX());
-		            	elipse.setyCoord(event.getY());
+		            	elipse = (MyEllipse) ObjectList.createShape("Elipse");//klone eine Elipse!
+		            	elipse.setCenterX(event.getX());
+		            	elipse.setCenterY(event.getY());
 		                //_gc.beginPath();
 		                //_gc.moveTo(event.getX(), event.getY());
-		            	_gc.strokeOval(elipse.getxCoord(), elipse.getyCoord(),
-		                		event.getX() - elipse.getxCoord()
-		                		,event.getY() - elipse.getyCoord());
+		            	_gc.strokeOval(elipse.getCenterX(), elipse.getCenterY(),
+		                		event.getX() - elipse.getCenterX()
+		                		,event.getY() - elipse.getCenterY());
 		            }
 		        };
 		        _canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,EditorController.actualPressEventHandler);
@@ -98,9 +98,9 @@ public class ComPaintElipse implements ICommand {
 				EditorController.actualDragEventHandler =   new EventHandler<MouseEvent>(){
 		            @Override
 		            public void handle(MouseEvent event) {
-		            	_gc.strokeOval(elipse.getxCoord(), elipse.getyCoord(),
-		                		event.getX() - elipse.getxCoord()
-		                		,event.getY() - elipse.getyCoord());
+		            	_gc.strokeOval(elipse.getCenterX(), elipse.getCenterY(),
+		                		event.getX() - elipse.getCenterX()
+		                		,event.getY() - elipse.getCenterY());
 		            	_gc.stroke();
 		            }
 		        };

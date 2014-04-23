@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import objects.Shape;
 import commands.ComChangeLineWidth;
 import commands.ComGroupShapes;
 import commands.ComPaintCircle;
@@ -32,8 +31,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Shape;
 
 public class EditorController implements Initializable,IMediator {
 	
@@ -64,13 +65,14 @@ public class EditorController implements Initializable,IMediator {
 	private Canvas canvas;
 	private static Color oldLineColor = Color.BLACK;
 	private static double oldLineWidth = 1;
+	private Pane pane;
 	
-	private List<Shape> shapesToGroup = new ArrayList<Shape>();
-	
+	private List<Shape> shapesToGroup = new ArrayList<Shape>();	
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		Canvas canvas = new Canvas(400, 300);
+		Pane pane = new Pane();//füge dem gridpane diese pane hinzu und adde das canvas element in dieses pane
 		final GraphicsContext gc = canvas.getGraphicsContext2D();
 		initDraw(gc);
 		setHandlers(canvas); 
@@ -86,10 +88,12 @@ public class EditorController implements Initializable,IMediator {
                 Number old_val, Number new_val) {
 	            	changeLineWidth();
             }
-        });        
-       
-        grid.add(canvas, 1, 1);
+        });
         
+       pane.getChildren().add(canvas);
+       System.out.println("canvas id im pane.getChildren = "+pane.getChildren().indexOf(canvas));
+       this.pane = pane;
+       grid.add(pane, 1, 1);
 	}
 	
 	private void setHandlers(Canvas canvas) {
@@ -184,8 +188,8 @@ public class EditorController implements Initializable,IMediator {
 			rectangle.setImage(_rectangle);
 			stopPaintShape();
 		}else{
-			paintRectangle(); //tells mediator that a shape is going to be paint
-			ComPaintRectangle cmd = new ComPaintRectangle(canvas,color);
+			paintRectangle();//tells mediator that a shape is going to be paint
+			ComPaintRectangle cmd = new ComPaintRectangle(pane,color,gc.getStroke());
 			storeAndExecute(cmd); 
 			rectangle.setImage(_rectangleShiny);
 		}
@@ -198,7 +202,7 @@ public class EditorController implements Initializable,IMediator {
 			stopPaintShape();
 		}else{
 			paintSquare();//tells mediator that a shape is going to be paint
-			ComPaintSquare cmd = new ComPaintSquare(canvas,color,gc.getStroke());
+			ComPaintSquare cmd = new ComPaintSquare(pane,color,gc.getStroke());
 			storeAndExecute(cmd); 
 			square.setImage(_squareShiny);
 		}
@@ -237,7 +241,7 @@ public class EditorController implements Initializable,IMediator {
 			stopPaintShape();
 		}else{
 			paintTriangle();//tells mediator that a shape is going to be paint
-			ComPaintTriangle cmd = new ComPaintTriangle(canvas,color,gc.getStroke());
+			ComPaintTriangle cmd = new ComPaintTriangle(pane,color,gc.getStroke());
 			storeAndExecute(cmd); 
 			triangle.setImage(_triangleShiny);
 		}
@@ -245,14 +249,11 @@ public class EditorController implements Initializable,IMediator {
 	}
 	
 	@FXML
-	private void group(ActionEvent event){
-		
+	private void group(ActionEvent event){		
 		ICommand groupCommand = new ComGroupShapes(shapesToGroup);
 		storeAndExecute(groupCommand);
 		System.out.println("GROUP-Button pressed");
-	}
-	
-	
+	}	
 	
 	@FXML
 	private void undo(ActionEvent event){		
@@ -279,8 +280,7 @@ public class EditorController implements Initializable,IMediator {
 		circle.disableProperty().setValue(true);
 		triangle.disableProperty().setValue(true);
 		stopHandlers();
-		//all buttons disable that are not used if i type on some of the shape icons
-		
+		//all buttons disable that are not used if i type on some of the shape icons		
 	}
 
 	@Override

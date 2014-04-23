@@ -1,49 +1,70 @@
 package objects;
 
+import interfaces.IShape;
+
 import java.util.Hashtable;
+
+import javafx.scene.Node;
+import javafx.scene.shape.Shape;
 
 public class ObjectList {
 	
 	public static final int MAX_DIFF_SHAPES = 6;//different shapes (circle,rectangle....)
 	
-	private static Hashtable<Integer, Shape> shapeMap  = new Hashtable<Integer, Shape>();
+	private static Hashtable<String, IShape> shapeMap  = new Hashtable<String, IShape>();
 
-	public static Shape getShape(int shapeId) {
-		Shape currentShape = shapeMap.get(shapeId);
+	public static IShape getShape(int shapeId) {
+		IShape currentShape = shapeMap.get(shapeId);
 		return currentShape;
 	}
 	
 	private static void initializeShapes(){
 			
-		shapeMap.put(0, new Rectangle());
-		shapeMap.put(1, new Square());
-		shapeMap.put(2, new Ellipse());
-		shapeMap.put(3, new Circle());
-		shapeMap.put(4, new Triangle());
-		shapeMap.put(5, new CompositeGraphic());
+		shapeMap.put(Integer.toString(0), new MyRectangle());
+		shapeMap.put(Integer.toString(1), new MySquare());
+		shapeMap.put(Integer.toString(2), new MyEllipse());
+		shapeMap.put(Integer.toString(3), new MyCircle());
+		shapeMap.put(Integer.toString(4), new MyTriangle());
+		shapeMap.put(Integer.toString(5), new CompositeGraphic());
 	}
 	
 	
 	
-	public static Shape createShape(String type) {//klont die form die geklont werden soll(param)
+	public static IShape createShape(String type) {//klont die form die geklont werden soll(param)
 		if(shapeMap.size() == 0){
 			initializeShapes();
 			System.out.println("init Shapes");
 		}
-		
-		for(int i = 0;i <= MAX_DIFF_SHAPES; i++){
-			if(shapeMap.get(i).getType().equals(type)){
-				System.out.println("ShapeNumber(Rec 0;Square 1; Elipse 2; Circle 3; Triangle 4;) = "+ i );
-				Shape clonedShape = (Shape) shapeMap.get(i).klone();
-				return clonedShape;
-			}
-		}
-		return null;
+		System.out.println("ShapeNumber(Rec 0;Square 1; Elipse 2; Circle 3; Triangle 4; Composite 5) = "+ getShapeNumber(type) );
+		IShape clonedShape = (IShape) shapeMap.get(getShapeNumber(type)).klone();
+		return clonedShape;
+
 	}
 	
-	public static void add(Shape shape){
-		shape.setId(shapeMap.size());
-	    shapeMap.put(shape.getId(),shape);
+	private static Object getShapeNumber(String type) {
+		switch (type) {
+        case "Rectangle":  type = Integer.toString(0);
+                break;
+        case "Square":  type = Integer.toString(1);
+        		break;
+        case "Ellipse":  type = Integer.toString(2);
+        		break;
+        case "Circle":  type = Integer.toString(3);
+        		break;
+        case "Triangle":  type = Integer.toString(4);
+				break;
+        case "Composite":  type = Integer.toString(5);
+				break;
+        default: type = "Invalid Shape";
+        		System.out.println("Invalid Shape - Shape instance not found");
+                break;
+    }
+		return type;
+	}
+
+	public static void add(IShape shape){
+		((Node) shape).setId(Integer.toString(shapeMap.size()));
+	    shapeMap.put(((Node) shape).getId(),shape);
 	    System.out.println("current Shapes = " + (shapeMap.size()-MAX_DIFF_SHAPES));
 	    return;
 	}

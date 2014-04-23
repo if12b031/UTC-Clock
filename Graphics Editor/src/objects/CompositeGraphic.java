@@ -1,13 +1,18 @@
 package objects;
 
-import objects.Shape;
+import interfaces.Drawable;
+import interfaces.IShape;
+
 import java.util.List;
 import java.util.ArrayList;
+
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Shape;
 	
-	public class CompositeGraphic extends Shape {
+	public class CompositeGraphic extends Shape implements Drawable,IShape{
 		
 		public CompositeGraphic(){
-		    type = "CompositeGraphic";
+
 		}
 	 
 	    //Collection of child graphics.
@@ -25,7 +30,29 @@ import java.util.ArrayList;
 	    }
 
 		@Override
-		void draw() {
-			// TODO Auto-generated method stub			
+		public	void draw(Pane pane) {
+			// TODO Auto-generated method stub	
+		}
+
+		@Override
+		public Object klone() {
+		      Object clone = null;
+		      try {
+		         clone = super.clone();
+		      } catch (CloneNotSupportedException e) {
+		         e.printStackTrace();
+		      }
+		      return clone;
+		   }
+		
+		@Override
+		public com.sun.javafx.geom.Shape impl_configShape() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public void setHandler() {
+			// TODO Auto-generated method stub
 		}
 	}
