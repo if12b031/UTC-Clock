@@ -1,5 +1,9 @@
 package main;
 
+import interfaces.ICommand;
+
+import java.util.Stack;
+
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +14,9 @@ import javafx.stage.WindowEvent;
 
 public class Main extends javafx.application.Application{
 	
-    public static void main(String[] args) {
+    public static Stack<ICommand> history = new Stack<ICommand>();
+	
+	public static void main(String[] args) {
     	
 		launch(args);
 	}	

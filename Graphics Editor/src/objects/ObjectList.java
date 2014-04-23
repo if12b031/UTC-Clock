@@ -52,9 +52,4 @@ public class ObjectList {
 		shapeMap.remove(shape.getId());
 		return;
 	}
-	
-	
-	
-	
-
 }

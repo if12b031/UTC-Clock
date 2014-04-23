@@ -26,7 +26,6 @@ import java.util.ArrayList;
 
 		@Override
 		void draw() {
-			// TODO Auto-generated method stub
-			
+			// TODO Auto-generated method stub			
 		}
 	}

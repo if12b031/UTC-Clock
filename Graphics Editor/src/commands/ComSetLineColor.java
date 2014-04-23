@@ -1,15 +1,16 @@
 package commands;
 
+import main.EditorController;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Paint;
+import javafx.scene.paint.Color;
 import interfaces.ICommand;
 
 public class ComSetLineColor implements ICommand {
 	
 	GraphicsContext _gc;
-	Paint _color,_colorOld;
+	Color _color,_colorOld;
 
-	public ComSetLineColor(GraphicsContext gc, Paint color, Paint colorOld) {
+	public ComSetLineColor(GraphicsContext gc, Color color, Color colorOld) {
 		_gc = gc;
 		_color = color;
 		_colorOld = colorOld;
@@ -18,14 +19,13 @@ public class ComSetLineColor implements ICommand {
 	@Override
 	public void execute() {
 		_gc.setStroke(_color);
-	}
-
-	
+	}	
 
 	@Override
 	public void undo() {
-		_gc.setStroke(_colorOld);		
+		EditorController.updateColorpicker(_colorOld);
 	}
+	
 	//GETTERS
 	public GraphicsContext get_gc() {
 		return _gc;

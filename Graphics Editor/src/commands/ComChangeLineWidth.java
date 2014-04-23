@@ -1,5 +1,6 @@
 package commands;
 
+import main.EditorController;
 import javafx.scene.canvas.GraphicsContext;
 import interfaces.ICommand;
 
@@ -23,8 +24,9 @@ public class ComChangeLineWidth implements ICommand {
 
 	@Override
 	public void undo() {
-		_gc.setLineWidth(_widthOld);		
+		EditorController.undoLineWidth(_widthOld);		
 	}
+	
 	//GETTERS
 	public GraphicsContext get_gc() {
 		return _gc;

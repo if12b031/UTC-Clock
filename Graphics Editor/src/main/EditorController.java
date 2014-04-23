@@ -6,9 +6,7 @@ import interfaces.IMediator;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.ResourceBundle;
-import java.util.Stack;
 
 import objects.Shape;
 import commands.ComChangeLineWidth;
@@ -27,6 +25,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
@@ -39,13 +38,14 @@ import javafx.scene.paint.Paint;
 public class EditorController implements Initializable,IMediator {
 	
 	@FXML private GridPane grid;
-	@FXML private Slider slider;
-	@FXML private ColorPicker colorPicker;
+	@FXML private static Slider slider;
+	@FXML private static ColorPicker colorPicker;
 	@FXML private ImageView rectangle;
 	@FXML private ImageView square;
 	@FXML private ImageView triangle;
 	@FXML private ImageView elipse;
 	@FXML private ImageView circle;
+	@FXML private static Button undoButton;
 	
 	Image _rectangleShiny = new Image("assets/rechteck_marked.png",true);
 	Image _rectangle = new Image("assets/rechteck.png",true);
@@ -62,9 +62,9 @@ public class EditorController implements Initializable,IMediator {
 	
 	private GraphicsContext gc;
 	private Canvas canvas;
+	private static Color oldLineColor = Color.BLACK;
+	private static double oldLineWidth = 1;
 	
-	private Stack<ICommand> history = new Stack<ICommand>();
-	private Stack<ICommand> undoHistory = new Stack<ICommand>();
 	private List<Shape> shapesToGroup = new ArrayList<Shape>();
 	
 
@@ -76,22 +76,20 @@ public class EditorController implements Initializable,IMediator {
 		setHandlers(canvas); 
         colorPicker.setValue(Color.BLACK);
         this.gc = gc;
-        this.canvas = canvas;
+        this.canvas = canvas;       
         
-       
+        slider.setMin(1);
+        slider.setMax(50);
         
         slider.valueProperty().addListener(new ChangeListener<Number>() {
             public void changed(ObservableValue<? extends Number> ov,
                 Number old_val, Number new_val) {
-	            	ComChangeLineWidth cmd = new ComChangeLineWidth(gc, new_val.doubleValue(), old_val.doubleValue());
-	    			storeAndExecute(cmd);
-	    			//gc = cmd.get_gc();     geht nicht weil-> final variable  
-	    			gc.setLineWidth(new_val.doubleValue());
+	            	changeLineWidth();
             }
-        });
-        
+        });        
        
         grid.add(canvas, 1, 1);
+        
 	}
 	
 	private void setHandlers(Canvas canvas) {
@@ -162,19 +160,20 @@ public class EditorController implements Initializable,IMediator {
          
     }
 	
-	/*private void changeLineWidth(){
-		ComChangeLineWidth cmd = new ComChangeLineWidth(gc, slider.getValue(), old_val.doubleValue());
+	private void changeLineWidth(){
+		double lineWidth = slider.getValue();
+		ComChangeLineWidth cmd = new ComChangeLineWidth(gc, lineWidth, oldLineWidth);
 		storeAndExecute(cmd);
-		gc = cmd.get_gc();
-	}*/
+		oldLineWidth = lineWidth;
+	}
 	
 	//COMMANDS
 	
 	@FXML private void setLineColor(){
-		Paint color = colorPicker.getValue();
-		//System.out.println(gc.getStroke());
-		ComSetLineColor cmd = new ComSetLineColor(gc,color,gc.getStroke());
-		storeAndExecute(cmd);      
+		Color color = colorPicker.getValue();
+		ComSetLineColor cmd = new ComSetLineColor(gc, color, oldLineColor);
+		storeAndExecute(cmd); 
+		oldLineColor = color;
 	}
 	
 	//SHAPE-ICONS
@@ -185,8 +184,8 @@ public class EditorController implements Initializable,IMediator {
 			rectangle.setImage(_rectangle);
 			stopPaintShape();
 		}else{
-			paintRectangle();//tells mediator that a shape is going to be paint
-			ComPaintRectangle cmd = new ComPaintRectangle(canvas,color,gc.getStroke());
+			paintRectangle(); //tells mediator that a shape is going to be paint
+			ComPaintRectangle cmd = new ComPaintRectangle(canvas,color);
 			storeAndExecute(cmd); 
 			rectangle.setImage(_rectangleShiny);
 		}
@@ -256,20 +255,19 @@ public class EditorController implements Initializable,IMediator {
 	
 	
 	@FXML
-	private void undo(ActionEvent event){
-		
-		try{ICommand undoCommand = history.lastElement();
-		undoCommand.undo();
-		undoHistory.push(undoCommand);
-		history.pop();
-		System.out.println("UNDO-Button pressed");
-		}catch(NoSuchElementException e){
+	private void undo(ActionEvent event){		
+		if(!Main.history.empty()) {		
+			ICommand undoCommand = Main.history.pop();
+			undoCommand.undo();
+			System.out.println("UNDO-Button pressed");
+		} else {
 			System.out.println("There was no last Command executed!");
 		}
+
     }
 	
 	public void storeAndExecute(ICommand cmd) {//speichert die commands in eine history
-        this.history.push(cmd);
+        Main.history.push(cmd);
         cmd.execute();      
      }
 
@@ -338,4 +336,14 @@ public class EditorController implements Initializable,IMediator {
 		setHandlers(canvas);
 	}
 	
+	public static void updateColorpicker(Color color) {
+		colorPicker.setValue(color);
+		colorPicker.fireEvent(new ActionEvent(colorPicker, colorPicker));
+		Main.history.pop();
+	}
+	
+	public static void undoLineWidth(double val) {
+		slider.setValue(val);
+		Main.history.pop();
+	}
 }

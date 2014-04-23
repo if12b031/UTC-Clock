@@ -17,10 +17,9 @@ public class ComPaintRectangle implements ICommand {
 	Paint _color,_colorOld;
 	Rectangle rectangle;
 
-	public ComPaintRectangle(Canvas canvas, Paint color, Paint colorOld) {
+	public ComPaintRectangle(Canvas canvas, Paint color) {
 		_canvas = canvas;
 		_color = color;
-		_colorOld = colorOld;
 		_gc = canvas.getGraphicsContext2D();
 	}
 
@@ -28,13 +27,10 @@ public class ComPaintRectangle implements ICommand {
 	public void execute() {
 		_gc.setStroke(_color);
 		setUpEventHandler();
-	}
-
-	
+	}	
 
 	@Override
 	public void undo() {
-		_gc.setStroke(_colorOld);
 		removeEventHandler();
 	}
 	
@@ -88,8 +84,8 @@ public class ComPaintRectangle implements ICommand {
 		                //_gc.beginPath();
 		                //_gc.moveTo(event.getX(), event.getY());
 		            	_gc.rect(rectangle.getxCoord(), rectangle.getyCoord(),
-		                		event.getX() - rectangle.getxCoord()
-		                		,event.getY() - rectangle.getyCoord());
+		                		event.getX() - rectangle.getxCoord(),
+		                		event.getY() - rectangle.getyCoord());
 		            }
 		        };
 		        _canvas.addEventHandler(MouseEvent.MOUSE_PRESSED,EditorController.actualPressEventHandler);
